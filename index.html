@@ -3,205 +3,240 @@
 <head>
   <meta charset="UTF-8">
   <title>Static931 • Smart Game Picker</title>
-  <meta name="description" content="Five unblocked games weighted by popularity. ⭐ Right‑click to pin favourites; ✨ Different Games shows hidden gems.">
-  <meta name="keywords" content="unblocked games, school safe games, play at school, static931">
+  <meta name="description" content="Five unblocked games each visit. ⭐ Right‑click to pin favourites; explore hidden gems or your most‑shown titles.">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     :root{
       --card-w:148px;
       --card-h:92px;
       --radius:14px;
       --fade:.55s cubic-bezier(.4,0,.2,1);
-      --blue:#3163be;     /* button / accent */
-      --lt:#c9c9c9;       /* page background */
+      --blue:#3163be;            /* accent */
+      --grey:#c9c9c9;            /* Google‑Sites background */
+      --panel:#181a1f;           /* dark list panel           */
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{
       font-family:system-ui,Arial,sans-serif;
-      background:var(--lt);
-      overflow:hidden;                                /* no page scroll in iframe */
-      display:flex;align-items:center;justify-content:center;min-height:100vh;
+      background:var(--grey);
+      overflow:hidden;
+      display:flex;align-items:center;justify-content:center;
+      min-height:100vh;
+      color:#f6f6f6;
     }
-    .wrapper{position:relative;width:100%;max-width:1100px;padding:45px 14px 30px}
-    /* ---- cards grid ---- */
+    .wrapper{position:relative;width:100%;max-width:1100px;padding:50px 14px 34px}
+    /* button strip */
+    .btn{
+      position:absolute;
+      top:10px;
+      padding:9px 15px;
+      background:var(--blue);
+      color:#fff;
+      font:600 13px/1 system-ui;
+      border:none;border-radius:var(--radius);
+      cursor:pointer;
+      box-shadow:0 3px 7px rgba(0,0,0,.35);
+      transition:transform .2s;
+    } .btn:hover{transform:scale(1.08)}
+    #popularBtn{left:14px}
+    #altBtn{left:140px}
+    #pinsBtn{left:279px}
+    #freqBtn{left:392px}
+    @media(max-width:680px){
+      .btn{font-size:12px;padding:7px 12px}
+      #popularBtn{left:10px} #altBtn{left:116px} #pinsBtn{left:210px} #freqBtn{left:298px}
+    }
+    /* cards grid */
     .cards{
+      margin-top:46px;
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(var(--card-w),1fr));
       gap:20px;
       justify-items:center;
-      background:#181a1f;
+      background:var(--panel);
       border-radius:var(--radius);
-      padding:26px 22px;
+      padding:28px 22px 32px;
+      height:auto;
+      max-height:none;
+      overflow:hidden;
       box-shadow:0 3px 8px rgba(0,0,0,.28);
     }
+    .scrollable{overflow-y:auto;max-height:62vh;}
     .card{
-      width:var(--card-w);
-      background:#0f1114;
-      border-radius:var(--radius);
-      overflow:hidden;
-      box-shadow:0 3px 8px rgba(0,0,0,.38);
-      position:relative;
+      width:var(--card-w);background:#0f1114;border-radius:var(--radius);
+      overflow:hidden;box-shadow:0 3px 8px rgba(0,0,0,.38);
       transform:translateY(16px);opacity:0;
       animation:fadeIn var(--fade) forwards;
       transition:transform .25s,box-shadow .25s;
-      cursor:pointer;
+      cursor:pointer;position:relative;
     }
     .card:hover{transform:translateY(-6px) scale(1.06);box-shadow:0 8px 15px rgba(0,0,0,.55)}
     .card img{width:100%;height:var(--card-h);object-fit:cover;display:block}
     .card span{display:block;padding:9px 7px 11px;font:600 13px/1.2 system-ui;color:#f7f7f7;text-transform:capitalize}
-    /* pinned badge */
+    /* pin badge */
     .card.pinned::after{
-      content:"★";
-      position:absolute;top:6px;right:6px;
-      font-size:19px;font-weight:900;color:#fcd53f;
-      filter:drop-shadow(0 0 2px rgba(0,0,0,.6));
+      content:"★";position:absolute;top:6px;right:6px;
+      font-size:22px;font-weight:900;color:#ffd43b;
+      filter:drop-shadow(0 0 2px rgba(0,0,0,.7));
+      transform:rotate(-15deg);
     }
     @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
-
-    /* ---- buttons ---- */
-    .btn{
-      position:absolute;
-      top:10px;padding:8px 14px;border:none;
-      background:var(--blue);color:#fff;font:600 13px/1 system-ui;
-      border-radius:var(--radius);cursor:pointer;
-      box-shadow:0 3px 7px rgba(0,0,0,.35);
-      transition:transform .2s;
-    }
-    .btn:hover{transform:scale(1.07)}
-    #altBtn{left:14px}
-    #pinsBtn{left:145px}
-    #switchBtn{right:14px}
-
-    @media(max-width:640px){
-      :root{--card-w:132px;--card-h:82px}
-      .btn{font-size:12px;padding:7px 12px}
-      #pinsBtn{left:120px}
-    }
+    /* tooltip */
+    #tip{
+      position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+      background:#000c;color:#fff;padding:8px 14px;border-radius:12px;font-size:13px;
+      opacity:0;pointer-events:none;transition:opacity .4s;
+    } #tip.show{opacity:1}
   </style>
 </head>
 <body>
   <div class="wrapper">
-    <button class="btn" id="altBtn"   onclick="setMode('alt')"  >✨ Different Games</button>
-    <button class="btn" id="pinsBtn"  onclick="setMode('pin')"  >⭐ My Pins</button>
-    <button class="btn" id="switchBtn" onclick="nextSet()"       >🎲 Switch Games</button>
+    <button class="btn" id="popularBtn" onclick="setMode('popular')">🎲 Popular</button>
+    <button class="btn" id="altBtn"     onclick="setMode('alt')">✨ Different</button>
+    <button class="btn" id="pinsBtn"    onclick="setMode('pin')">⭐ My Pins</button>
+    <button class="btn" id="freqBtn"    onclick="setMode('freq')">🔥 Frequent</button>
     <div   class="cards" id="cards"></div>
   </div>
+  <div id="tip">Right‑click a card to pin ⭐</div>
 
   <script>
-    /* ---------------- master game list (add the rest of your ~160 main links) ---------------- */
-    const games=[
-      "https://sites.google.com/view/staticquasar931/gm3z/snow-rider",
-      "https://sites.google.com/view/staticquasar931/gm3z/sl0pe",
-      "https://sites.google.com/view/staticquasar931/gm3z/drift-hunters",
-      "https://sites.google.com/view/staticquasar931/gm3z/subway-surfers_1/subway-surfers-main",
-      "https://sites.google.com/view/staticquasar931/gm3z/block-blast",
-      "https://sites.google.com/view/staticquasar931/gm3z/minecraft",
-      "https://sites.google.com/view/staticquasar931/gm3z/geometry-dash",
-      "https://sites.google.com/view/staticquasar931/gm3z/getting-over-it",
-      "https://sites.google.com/view/staticquasar931/gm3z/plants-vs-zombies",
-      "https://sites.google.com/view/staticquasar931/gm3z/1v1-lol",
-      /* hidden‑gem examples */
-      "https://sites.google.com/view/staticquasar931/gm3z/3-slices",
-      "https://sites.google.com/view/staticquasar931/gm3z/red-remover",
-      "https://sites.google.com/view/staticquasar931/gm3z/tangerine-tycoon",
-      "https://sites.google.com/view/staticquasar931/gm3z/stack-bounce"
-    ];
+  /* ---------------- master game list (all mains) ---------------- */
+  const games=[
+    ["Snow Rider"              ,"https://sites.google.com/view/staticquasar931/gm3z/snow-rider"],
+    ["Slope"                   ,"https://sites.google.com/view/staticquasar931/gm3z/sl0pe"],
+    ["Drift Hunters"           ,"https://sites.google.com/view/staticquasar931/gm3z/drift-hunters"],
+    ["Subway Surfers"          ,"https://sites.google.com/view/staticquasar931/gm3z/subway-surfers_1/subway-surfers-main"],
+    ["Block Blast"             ,"https://sites.google.com/view/staticquasar931/gm3z/block-blast"],
+    ["Minecraft"               ,"https://sites.google.com/view/staticquasar931/gm3z/minecraft"],
+    ["Geometry Dash"           ,"https://sites.google.com/view/staticquasar931/gm3z/geometry-dash"],
+    ["Getting Over It"         ,"https://sites.google.com/view/staticquasar931/gm3z/getting-over-it"],
+    ["Plants vs Zombies"       ,"https://sites.google.com/view/staticquasar931/gm3z/plants-vs-zombies"],
+    ["Wordle"                  ,"https://sites.google.com/view/staticquasar931/gm3z/wordle"],
+    ["Smash Karts"             ,"https://sites.google.com/view/staticquasar931/gm3z/smash-karts"],
+    ["Duck Life"               ,"https://sites.google.com/view/staticquasar931/gm3z/duck-life"],
+    ["OvO"                     ,"https://sites.google.com/view/staticquasar931/gm3z/ovo"],
+    ["Moto X3M"                ,"https://sites.google.com/view/staticquasar931/gm3z/moto-x3m-listing/moto-x3m"],
+    ["Escape Road"             ,"https://sites.google.com/view/staticquasar931/gm3z/fake-gta-escape-road"],
+    ["Among Us"                ,"https://sites.google.com/view/staticquasar931/gm3z/among-us"],
+    ["Snowball IO"             ,"https://sites.google.com/view/staticquasar931/gm3z/snowball-io"],
+    ["Big Tower Tiny Square"   ,"https://sites.google.com/view/staticquasar931/gm3z/big-tower-tiny-square"],
+    /* ---------- Gems (uncommon but good) ---------- */
+    ["3 Slices"                ,"https://sites.google.com/view/staticquasar931/gm3z/3-slices"],
+    ["Red Remover"             ,"https://sites.google.com/view/staticquasar931/gm3z/red-remover"],
+    ["Tangerine Tycoon"        ,"https://sites.google.com/view/staticquasar931/gm3z/tangerine-tycoon"],
+    ["Hungry Blocks"           ,"https://sites.google.com/view/staticquasar931/gm3z/hungry-blocks"],
+    ["Tower Stacker"           ,"https://sites.google.com/view/staticquasar931/gm3z/tower-stacker"],
+    ["Star Battle"             ,"https://sites.google.com/view/staticquasar931/gm3z/star-battle"],
+    ["Hextris"                 ,"https://sites.google.com/view/staticquasar931/gm3z/hextris"],
+    ["Rolling Vertex"          ,"https://sites.google.com/view/staticquasar931/gm3z/rolling-vertex"],
+    ["Idle Breakout"           ,"https://sites.google.com/view/staticquasar931/gm3z/idle-gvmes/idle-breakout"],
+    ["Stack Bounce"            ,"https://sites.google.com/view/staticquasar931/gm3z/stack-bounce"]
+    /* ---- add the rest of your main pages here ---- */
+  ];
 
-    /* ----- popularity weighting list ----- */
-    const popularNames=[
-      "slope","snow rider","drift hunters","subway surfers","block blast",
-      "minecraft","geometry dash","plants vs zombies","1v1 lol"
-    ];
+  /* ---------- popularity weighting ---------- */
+  const popularSet=new Set([
+    "slope","snow rider","drift hunters","subway surfers",
+    "block blast","minecraft","geometry dash","wordle",
+    "plants vs zombies","smash karts","duck life","ovo",
+    "moto x3m","escape road","among us","snowball io",
+    "big tower tiny square"
+  ]);
 
-    /* ----- custom thumbnail map ----- */
-    const customImg={
-      "snow rider":"https://assets.workingnotworking.com/wuw3exhpnufqm251txkeabub40m0",
-      "slope":"https://play-lh.googleusercontent.com/uJn2i9h7KxYQarC_c3K4qH6o7gLtflFnhD_dN14MNkzHJ1NeNFzCL69jpB5mT0vCoQs",
-      "sl0pe":"https://play-lh.googleusercontent.com/uJn2i9h7KxYQarC_c3K4qH6o7gLtflFnhD_dN14MNkzHJ1NeNFzCL69jpB5mT0vCoQs",
-      "drift hunters":"https://imgs.crazygames.com/games/drift-hunters/cover-1656950639575.png?metadata=none&quality=40&width=1200&height=630&fit=crop",
-      "subway surfers":"https://play-lh.googleusercontent.com/JzFSE6MI0F_5bWcyYLXma-BiCRfRrhh1Of1qZizM3DenOa8v_1mnNiO0BoOFOAIScDA",
-      "block blast":"https://m.media-amazon.com/images/I/71mDg3UjuqL.png",
-      "minecraft":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHGtIoU4GuJVA2eb6Dli-OpwZu0_jGionzAQ&s",
-      "geometry dash":"https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Logo_of_Geometry_Dash.svg/800px-Logo_of_Geometry_Dash.svg.png",
-      "getting over it":"https://scratchgames.co/data/image/game/getting-over-it.jpg",
-      "plants vs zombies":"https://media.contentapi.ea.com/content/dam/gin/images/2017/01/plants-vs-zombies-2-keyart.jpg.adapt.crop1x1.767p.jpg"
-    };
+  /* ---------- custom thumbnails ---------- */
+  const imgMap={
+    "snow rider":"https://assets.workingnotworking.com/wuw3exhpnufqm251txkeabub40m0",
+    "slope":"https://play-lh.googleusercontent.com/uJn2i9h7KxYQarC_c3K4qH6o7gLtflFnhD_dN14MNkzHJ1NeNFzCL69jpB5mT0vCoQs",
+    "drift hunters":"https://imgs.crazygames.com/games/drift-hunters/cover-1656950639575.png?metadata=none&quality=40&width=1200&height=630&fit=crop",
+    "subway surfers":"https://play-lh.googleusercontent.com/JzFSE6MI0F_5bWcyYLXma-BiCRfRrhh1Of1qZizM3DenOa8v_1mnNiO0BoOFOAIScDA",
+    "block blast":"https://m.media-amazon.com/images/I/71mDg3UjuqL.png",
+    "minecraft":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHGtIoU4GuJVA2eb6Dli-OpwZu0_jGionzAQ&s",
+    "geometry dash":"https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Logo_of_Geometry_Dash.svg/800px-Logo_of_Geometry_Dash.svg.png",
+    "getting over it":"https://scratchgames.co/data/image/game/getting-over-it.jpg",
+    "plants vs zombies":"https://media.contentapi.ea.com/content/dam/gin/images/2017/01/plants-vs-zombies-2-keyart.jpg.adapt.crop1x1.767p.jpg",
+    "wordle":"https://static01.nyt.com/images/2022/03/02/crosswords/alpha-wordle-icon-new/alpha-wordle-icon-new-smallSquare252-v3.png",
+    "smash karts":"https://play-lh.googleusercontent.com/cM1CXOuBIy0kjGfoCTOKNa812iuVX6X2DDop8xNH4mNyjuM-oj3wVqZ7wiAOizq_TA",
+    "duck life":"https://styles.redditmedia.com/t5_2zesh/styles/communityIcon_6gx6y4qpdw651.png",
+    "ovo":"https://play-lh.googleusercontent.com/FGOx7lauU-s3GyEV-R9rsDLd1v1aS9T788QAQ9wsVYCDZa89OqV55L7aE0vqgEt3mg",
+    "moto x3m":"https://img.utdstc.com/icon/d58/2cc/d582ccb74f259ec7c126fc55b61b13e0856d37b2f8ca70507521273bea0b8950:200",
+    "escape road":"https://1games.io/data/image/game/escape-road/1024-x-768.png",
+    "among us":"https://static.wikia.nocookie.net/among-us-wiki/images/8/84/Among_Us.png",
+    "snowball io":"https://www.mathnook.com/img/addthis-fun-games/snowball-io-200x200.jpg",
+    "big tower tiny square":"https://styles.redditmedia.com/t5_6ahs3b/styles/communityIcon_avccbus8rcw81.png"
+  };
 
-    /* ---------- helpers ---------- */
-    const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/0/g,'o').trim();
-    const slugTitle=url=>{
-      const slug=url.split('/').filter(Boolean).pop();
-      return decodeURIComponent(slug.replace(/[-_]/g,' ')).replace(/\b\w/g,l=>l.toUpperCase());
-    };
-    const imgSrc=(name,seed)=>{
-      const key=norm(name);
-      return customImg[key] || `https://source.unsplash.com/300x180/?${encodeURIComponent(name+' video game')}&sig=${seed}`;
-    };
+  /* ---------- utility ---------- */
+  const key=s=>s.toLowerCase();
+  const src=(name,seed)=>imgMap[key(name)]||`https://source.unsplash.com/300x180/?${encodeURIComponent(name+' video game')}&sig=${seed}`;
+  function shuffle(a){a.sort(()=>Math.random()-.5);}
 
-    /* ---------- build weighted + alt decks ---------- */
-    let mainDeck=[], altDeck=[];
-    games.forEach(link=>{
-      const title=slugTitle(link); const key=norm(title);
-      (popularNames.includes(key)?3:1).toString().split('').forEach(()=>mainDeck.push(link));
-      if(!popularNames.includes(key)) altDeck.push(link);
+  /* ---------- build decks ---------- */
+  const popularDeck=[], altDeck=[];
+  games.forEach(([title,link])=>{
+    const w=popularSet.has(key(title))?3:1;
+    for(let i=0;i<w;i++) popularDeck.push([title,link]);
+    if(!popularSet.has(key(title))) altDeck.push([title,link]);
+  });
+  shuffle(popularDeck); shuffle(altDeck);
+
+  /* ---------- persistent data ---------- */
+  const pinKey='static931_Pin'; const statKey='static931_Stat';
+  let pins=JSON.parse(localStorage.getItem(pinKey)||'[]');          // array of link
+  let stats=JSON.parse(localStorage.getItem(statKey)||'{}');        // link → show count
+
+  /* ---------- mode handling ---------- */
+  let mode='popular', deck=popularDeck, ptr=0;
+  function setMode(m){
+    mode=m;
+    if(m==='popular'){deck=popularDeck; ptr=0; cards.classList.remove('scrollable');}
+    if(m==='alt'){deck=altDeck; ptr=0; cards.classList.remove('scrollable');}
+    if(m==='pin'){deck=pins.map(l=>games.find(g=>g[1]===l)).filter(Boolean); ptr=0; cards.classList.add('scrollable');}
+    if(m==='freq'){
+      const freqArr=Object.entries(stats)
+          .sort((a,b)=>b[1]-a[1]).slice(0,20)
+          .map(([link])=>games.find(g=>g[1]===link))
+          .filter(Boolean);
+      deck=freqArr; ptr=0; cards.classList.remove('scrollable');
+    }
+    renderNext(true);
+  }
+
+  /* ---------- rendering ---------- */
+  const cards=document.getElementById('cards'), tip=document.getElementById('tip');
+  function renderNext(reset=false){
+    if(reset) ptr=0;
+    if(ptr>=deck.length){shuffle(deck); ptr=0;}
+    const slice=deck.slice(ptr,ptr+5); ptr+=5;
+    cards.innerHTML='';
+    slice.forEach(([title,link],i)=>{
+      stats[link]=(stats[link]||0)+1;
+      const seed=(title.length*97+i)%9999;
+      const card=document.createElement('div');
+      if(pins.includes(link)) card.classList.add('pinned');
+      card.classList.add('card'); card.style.animationDelay=`${i*0.05}s`;
+      card.innerHTML=`<img src="${src(title,seed)}" alt="${title}"><span>${title}</span>`;
+      card.onclick=()=>window.open(link,'_blank','noopener');
+      card.oncontextmenu=e=>{e.preventDefault(); togglePin(link,card);};
+      cards.appendChild(card);
     });
-    shuffle(mainDeck); shuffle(altDeck);
+    localStorage.setItem(statKey,JSON.stringify(stats));
+  }
+  function togglePin(link,card){
+    const idx=pins.indexOf(link);
+    if(idx===-1){pins.push(link);card.classList.add('pinned');}
+    else{pins.splice(idx,1);card.classList.remove('pinned');}
+    localStorage.setItem(pinKey,JSON.stringify(pins));
+  }
 
-    /* ---------- read / write pinned list ---------- */
-    const pinKey='static931Pinned';
-    const readPins=()=>JSON.parse(localStorage.getItem(pinKey)||'[]');
-    const writePins=arr=>localStorage.setItem(pinKey,JSON.stringify(arr));
-    let pinned=readPins();
+  /* ---------- first run tooltip ---------- */
+  if(!localStorage.getItem('static931_tipShown')){
+    tip.classList.add('show');
+    setTimeout(()=>tip.classList.remove('show'),4000);
+    localStorage.setItem('static931_tipShown','yes');
+  }
 
-    /* ---------- mode state ---------- */
-    let mode='main', deck=mainDeck, idx=0;
-
-    function shuffle(arr){arr.sort(()=>Math.random()-.5);}
-    function setMode(m){
-      mode=m;
-      deck=(m==='alt')?altDeck:(m==='pin'?pinned:mainDeck);
-      idx=0;
-      if(deck.length===0 && m==='pin'){alert('No pinned games yet.\nRight‑click a card to pin it!'); mode='main'; deck=mainDeck;}
-      nextSet(true);
-    }
-
-    /* ---------- card renderer ---------- */
-    function nextSet(reset=false){
-      if(reset){idx=0;}
-      if(idx>=deck.length){shuffle(deck); idx=0;}
-      const slice=deck.slice(idx,idx+5);
-      idx+=5;
-      const wrap=document.getElementById('cards');
-      wrap.innerHTML='';
-      slice.forEach((link,i)=>{
-        const name=slugTitle(link); const key=norm(name);
-        const seed=(name.length*97+i)%9999;
-        const card=document.createElement('div');
-        card.className='card'+(pinned.includes(link)?' pinned':'');
-        card.style.animationDelay=`${i*0.05}s`;
-        card.dataset.link=link;
-        card.innerHTML=`
-          <img src="${imgSrc(name,seed)}" alt="${name}" title="${name}">
-          <span>${name}</span>`;
-        // Left‑click → open game
-        card.addEventListener('click',()=>window.open(link,'_blank'));
-        // Right‑click → toggle pin
-        card.addEventListener('contextmenu',e=>{
-          e.preventDefault();
-          togglePin(link,card);
-        });
-        wrap.appendChild(card);
-      });
-    }
-
-    function togglePin(link,card){
-      const idx=pinned.indexOf(link);
-      if(idx===-1){pinned.push(link); card.classList.add('pinned');}
-      else        {pinned.splice(idx,1); card.classList.remove('pinned');}
-      writePins(pinned);
-    }
-
-    /* ---------- init ---------- */
-    nextSet();
+  /* ---------- init ---------- */
+  renderNext();
   </script>
 </body>
 </html>

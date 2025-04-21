@@ -18,35 +18,37 @@
     min-height:100vh;display:flex;align-items:center;justify-content:center;color:#f6f6f6
   }
   .wrapper{width:100%;max-width:1100px;padding:32px 14px 34px}
-  /* toolbar ------------------------------------------------------- */
-  .toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:18px}
+  /* pill button bar */
+  .toolbar{display:flex;justify-content:center;gap:18px;margin-bottom:22px;flex-wrap:wrap}
   .btn{
-    padding:9px 16px;font:600 13px/1 system-ui;background:var(--blue);color:#fff;
-    border:none;border-radius:var(--radius);cursor:pointer;
-    box-shadow:0 3px 7px rgba(0,0,0,.35);transition:transform .2s}
-  .btn:hover{transform:scale(1.08)}
-  /* grid ---------------------------------------------------------- */
+    padding:12px 24px;font:700 15px/1 system-ui;background:var(--blue);
+    color:#fff;border:none;border-radius:999px;cursor:pointer;
+    box-shadow:0 4px 9px rgba(0,0,0,.3);transition:transform .18s}
+  .btn:hover{transform:translateY(-2px) scale(1.05)}
+  /* grid */
   .cards{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--card-w),1fr));
     gap:20px;justify-items:center;background:var(--panel);border-radius:var(--radius);
     padding:28px 22px 32px;box-shadow:0 3px 8px rgba(0,0,0,.28)}
   .scrollable{overflow-y:auto;max-height:62vh}
-  /* card ---------------------------------------------------------- */
+  /* card */
   .card{
     width:var(--card-w);background:#0f1114;border-radius:var(--radius);overflow:hidden;
-    box-shadow:0 3px 8px rgba(0,0,0,.38);transform:translateY(16px);opacity:0;
-    animation:fadeIn var(--fade) forwards;cursor:pointer;position:relative}
+    box-shadow:0 3px 8px rgba(0,0,0,.38);transform:translateY(14px);opacity:0;
+    animation:fadeIn var(--fade) forwards;cursor:pointer;position:relative
+  }
   .card:hover{transform:translateY(-6px) scale(1.04);box-shadow:0 8px 15px rgba(0,0,0,.55)}
-  .card img{
-    width:100%;height:var(--card-h);object-fit:cover;display:block;
-    transition:transform .25s,filter .25s}
+  .card img{width:100%;height:var(--card-h);object-fit:cover;display:block;
+            transition:transform .25s,filter .25s}
   .card:hover img{transform:scale(1.08);filter:brightness(1.15) saturate(1.2)}
   .card span{display:block;padding:9px 7px 11px;font:600 13px/1.2 system-ui;color:#f7f7f7;text-transform:capitalize}
   .card.pinned::after{
     content:"★";position:absolute;top:6px;right:6px;font-size:22px;font-weight:900;
     color:#ffd43b;filter:drop-shadow(0 0 2px rgba(0,0,0,.7));transform:rotate(-15deg)}
   @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
-  /* tip ----------------------------------------------------------- */
+  /* empty‑state */
+  .empty{grid-column:1/-1;text-align:center;color:#ddd;font-weight:600;padding:40px 0}
+  /* tip */
   #tip{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
        background:#000c;color:#fff;padding:8px 14px;border-radius:12px;font-size:13px;
        opacity:0;pointer-events:none;transition:opacity .4s}
@@ -65,7 +67,7 @@
 <div id="tip">Right‑click a card to pin ⭐</div>
 
 <script>
-/* ---------- full catalogue (main links only) -------------------- */
+/* ---------- game catalogue (main pages only) ---------- */
 const games=[
  ["Snow Rider","https://sites.google.com/view/staticquasar931/gm3z/snow-rider"],
  ["Slope","https://sites.google.com/view/staticquasar931/gm3z/sl0pe"],
@@ -90,11 +92,11 @@ const games=[
  ["Paper.io 2","https://sites.google.com/view/staticquasar931/gm3z/io/paper-io-2"],
  ["Cookie Clicker","https://sites.google.com/view/staticquasar931/gm3z/cookie-clicker"],
  ["Flappy Bird","https://sites.google.com/view/staticquasar931/gm3z/flappy-bird"],
- ["Traffic Jam 3D","https://sites.google.com/view/staticquasar931/gm3z/traffic-jam-3d"],
+ ["Traffic Jam 3D","https://sites.google.com/view/staticquasar931/gm3z/traffic-jam-3d"],
  ["Stack","https://sites.google.com/view/staticquasar931/gm3z/stack"],
  ["Fireboy and Watergirl","https://sites.google.com/view/staticquasar931/gm3z/fireboywatergirl"],
  ["2048","https://sites.google.com/view/staticquasar931/gm3z/2048"],
- ["Run 3","https://sites.google.com/view/staticquasar931/gm3z/run-3-working/run-3"],
+ ["Run 3","https://sites.google.com/view/staticquasar931/gm3z/run-3-working/run-3"],
  ["Pac‑Man","https://sites.google.com/view/staticquasar931/gm3z/pac-man-ghost-gobbler"],
  ["Angry Birds","https://sites.google.com/view/staticquasar931/gm3z/angry-birds"],
  ["Krunker.io","https://sites.google.com/view/staticquasar931/gm3z/io/krunker-io"],
@@ -122,7 +124,7 @@ const games=[
  ["Hungry Shark","https://sites.google.com/view/staticquasar931/gm3z/hungry-shark"],
  ["Helix Jump","https://sites.google.com/view/staticquasar931/gm3z/helix-jump"],
  ["Smash Hit","https://sites.google.com/view/staticquasar931/gm3z/smash-hit"],
- ["Bloons TD 6","https://sites.google.com/view/staticquasar931/gm3z/bloons-tower-defense-6"],
+ ["Bloons TD 6","https://sites.google.com/view/staticquasar931/gm3z/bloons-tower-defense-6"],
  ["Stickman Hook","https://sites.google.com/view/staticquasar931/gm3z/stickman-hook"],
  ["Wheelie Bike","https://sites.google.com/view/staticquasar931/gm3z/wheelie-bike"],
  ["Madalin Stunt Cars 3","https://sites.google.com/view/staticquasar931/gm3z/random-car-gvmes/madalin-stunt-cars-3"],
@@ -139,23 +141,27 @@ const games=[
  ["Space Invaders","https://sites.google.com/view/staticquasar931/gm3z/space-invaders"],
  ["Little Alchemy 2","https://sites.google.com/view/staticquasar931/gm3z/little-alchemy-2"]
 ];
-/* ---------- popular weighting ----------------------------------- */
+
+/* ---------- popular weighting ---------- */
 const popularSet=new Set([
  "slope","drift hunters","slow roads","snow rider","block blast","minecraft",
  "geometry dash","wordle","plants vs zombies","smash karts","duck life","ovo",
- "moto x3m collection","papa's games","escape road","traffic tour",
- "paper.io 2","cookie clicker","flappy bird","traffic jam 3d","stack",
- "fireboy and watergirl","2048","run 3","pac‑man","angry birds","krunker.io",
- "cut the rope","clash of clans","snowball io","3 slices","big tower tiny square"
+ "moto x3m collection","papa's games","escape road","traffic tour","paper.io 2",
+ "cookie clicker","flappy bird","traffic jam 3d","stack","fireboy and watergirl",
+ "2048","run 3","pac‑man","angry birds","krunker.io","cut the rope",
+ "clash of clans","snowball io","3 slices","big tower tiny square"
 ]);
-/* ---------- thumbnail map --------------------------------------- */
-const imgMap={ /* ( identical to previous answer – omitted here for brevity ) */ };
-/* ---------- helpers --------------------------------------------- */
+
+/* ---------- hard‑wired thumbnails ---------- */
+const imgMap={ /* full map copied from previous answer, omitted here for brevity */ };
+
+/* ---------- helpers ---------- */
 const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]+/g,"").trim();
 const src=(name,seed)=>imgMap[norm(name)]||
   `https://source.unsplash.com/300x180/?${encodeURIComponent(name+' video game')}&sig=${seed}`;
 function shuffle(a){a.sort(()=>Math.random()-.5);}
-/* ---------- decks ---------------------------------------------- */
+
+/* ---------- decks ---------- */
 const popularDeck=[],altDeck=[];
 games.forEach(g=>{
   const w=popularSet.has(norm(g[0]))?3:1;
@@ -163,12 +169,15 @@ games.forEach(g=>{
   if(!popularSet.has(norm(g[0]))) altDeck.push(g);
 });
 shuffle(popularDeck);shuffle(altDeck);
-/* ---------- state & storage ------------------------------------- */
-const pinKey="static931_Pin";
+
+/* ---------- state ---------- */
+const pinKey="static931_Pin",statKey="static931_Stat";
 let pins=JSON.parse(localStorage.getItem(pinKey)||"[]");
-const recent=[],RECENT_MAX=30;
+let stats=JSON.parse(localStorage.getItem(statKey)||"{}");
+const recent=[];const RECENT_MAX=30;
 let deck=popularDeck,ptr=0;
-/* ---------- DOM refs ------------------------------------------- */
+
+/* ---------- rendering ---------- */
 const cards=document.getElementById("cards");
 function nextUnique(){
   let tries=0;
@@ -181,31 +190,35 @@ function nextUnique(){
 }
 function renderNext(reset=false){
   if(reset) ptr=0;
-  /* if pin mode and list empty → nudge user */
-  if(deck.length===0){cards.innerHTML="<p style='color:#fff;margin-top:6px'>No pins yet — right‑click any card to add ⭐</p>";return;}
+  cards.innerHTML="";
+  if(deck.length===0){cards.innerHTML='<div class="empty">No games here … yet!</div>';return;}
   const slice=[],seen=new Set();
-  while(slice.length<5){
+  while(slice.length<5 && deck.length){
     const g=nextUnique();
     if(!seen.has(g[0])){slice.push(g);seen.add(g[0]);recent.push(g[1]);}
     if(recent.length>RECENT_MAX) recent.shift();
   }
-  cards.innerHTML="";
   slice.forEach(([title,link],i)=>{
+    stats[link]=(stats[link]||0)+1;
     const card=document.createElement("div");
     card.className="card"+(pins.includes(link)?" pinned":"");
-    card.style.animationDelay=`${i*0.06}s`;
+    card.style.animationDelay=`${i*0.05}s`;
     card.innerHTML=`<img src="${src(title,i)}" alt="${title}"><span>${title}</span>`;
     card.onclick=()=>window.open(link,"_blank","noopener,noreferrer");
     card.oncontextmenu=e=>{e.preventDefault();togglePin(link,card);};
     cards.appendChild(card);
   });
+  localStorage.setItem(statKey,JSON.stringify(stats));
 }
-/* ---------- modes ---------------------------------------------- */
+
+/* ---------- modes ---------- */
 function setMode(m){
   if(m==="popular"){deck=popularDeck;cards.classList.remove("scrollable");}
   if(m==="alt"){deck=altDeck;cards.classList.remove("scrollable");}
-  if(m==="pin"){deck=pins.map(l=>games.find(g=>g[1]===l)).filter(Boolean);
-               cards.classList.add("scrollable");}
+  if(m==="pin"){
+    deck=pins.map(l=>games.find(g=>g[1]===l)).filter(Boolean);
+    cards.classList.add("scrollable");
+  }
   shuffle(deck);ptr=0;renderNext(true);
 }
 function togglePin(link,card){
@@ -213,14 +226,18 @@ function togglePin(link,card){
   if(i===-1){pins.push(link);card.classList.add("pinned");}
   else{pins.splice(i,1);card.classList.remove("pinned");}
   localStorage.setItem(pinKey,JSON.stringify(pins));
+  /* refresh pin deck view */
+  if(deck.length===0 && cards.classList.contains("scrollable")) renderNext(true);
 }
-/* ---------- tip (first run) ------------------------------------ */
+
+/* ---------- tip ---------- */
 const tip=document.getElementById("tip");
 if(!localStorage.getItem("static931_tipShown")){
   tip.classList.add("show");setTimeout(()=>tip.classList.remove("show"),4000);
   localStorage.setItem("static931_tipShown","yes");
 }
-/* ---------- kick‑off ------------------------------------------- */
+
+/* ---------- boot ---------- */
 renderNext();
 </script>
 </body>

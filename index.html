@@ -17,11 +17,11 @@
     background:linear-gradient(135deg,var(--grad) 0%,var(--grey) 70%);
     min-height:100vh;display:flex;align-items:center;justify-content:center;color:#f6f6f6
   }
-  .wrapper{width:100%;max-width:1100px;padding:32px 14px 34px}
+  .wrapper{width:100%;max-width:1100px;padding:34px 14px 38px}
   /* pill button bar */
-  .toolbar{display:flex;justify-content:center;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+  .toolbar{display:flex;justify-content:center;gap:18px;margin-bottom:26px;flex-wrap:wrap}
   .btn{
-    padding:12px 24px;font:700 15px/1 system-ui;background:var(--blue);
+    padding:12px 26px;font:700 15px/1 system-ui;background:var(--blue);
     color:#fff;border:none;border-radius:999px;cursor:pointer;
     box-shadow:0 4px 9px rgba(0,0,0,.3);transition:transform .18s}
   .btn:hover{transform:translateY(-2px) scale(1.05)}
@@ -89,14 +89,14 @@ const games=[
  ["Traffic Tour","https://sites.google.com/view/staticquasar931/gm3z/random-car-gvmes/traffic-tour"],
  ["Snowball IO","https://sites.google.com/view/staticquasar931/gm3z/snowball-io"],
  ["Big Tower Tiny Square","https://sites.google.com/view/staticquasar931/gm3z/big-tower-tiny-square"],
- ["Paper.io 2","https://sites.google.com/view/staticquasar931/gm3z/io/paper-io-2"],
+ ["Paper.io 2","https://sites.google.com/view/staticquasar931/gm3z/io/paper-io-2"],
  ["Cookie Clicker","https://sites.google.com/view/staticquasar931/gm3z/cookie-clicker"],
  ["Flappy Bird","https://sites.google.com/view/staticquasar931/gm3z/flappy-bird"],
- ["Traffic Jam 3D","https://sites.google.com/view/staticquasar931/gm3z/traffic-jam-3d"],
+ ["Traffic Jam 3D","https://sites.google.com/view/staticquasar931/gm3z/traffic-jam-3d"],
  ["Stack","https://sites.google.com/view/staticquasar931/gm3z/stack"],
  ["Fireboy and Watergirl","https://sites.google.com/view/staticquasar931/gm3z/fireboywatergirl"],
  ["2048","https://sites.google.com/view/staticquasar931/gm3z/2048"],
- ["Run 3","https://sites.google.com/view/staticquasar931/gm3z/run-3-working/run-3"],
+ ["Run 3","https://sites.google.com/view/staticquasar931/gm3z/run-3-working/run-3"],
  ["Pac‑Man","https://sites.google.com/view/staticquasar931/gm3z/pac-man-ghost-gobbler"],
  ["Angry Birds","https://sites.google.com/view/staticquasar931/gm3z/angry-birds"],
  ["Krunker.io","https://sites.google.com/view/staticquasar931/gm3z/io/krunker-io"],
@@ -146,14 +146,94 @@ const games=[
 const popularSet=new Set([
  "slope","drift hunters","slow roads","snow rider","block blast","minecraft",
  "geometry dash","wordle","plants vs zombies","smash karts","duck life","ovo",
- "moto x3m collection","papa's games","escape road","traffic tour","paper.io 2",
- "cookie clicker","flappy bird","traffic jam 3d","stack","fireboy and watergirl",
- "2048","run 3","pac‑man","angry birds","krunker.io","cut the rope",
- "clash of clans","snowball io","3 slices","big tower tiny square"
+ "moto x3m collection","papa's games","escape road","traffic tour","paper.io 2",
+ "cookie clicker","flappy bird","traffic jam 3d","stack","fireboy and watergirl",
+ "2048","run 3","pac‑man","angry birds","krunker.io","cut the rope",
+ "clash of clans","snowball io","3 slices","big tower tiny square"
 ]);
 
 /* ---------- hard‑wired thumbnails ---------- */
-const imgMap={ /* full map copied from previous answer, omitted here for brevity */ };
+const imgMap={
+ /* core hits */
+ "snow rider":"https://assets.workingnotworking.com/wuw3exhpnufqm251txkeabub40m0",
+ "slope":"https://play-lh.googleusercontent.com/uJn2i9h7KxYQarC_c3K4qH6o7gLtflFnhD_dN14MNkzHJ1NeNFzCL69jpB5mT0vCoQs",
+ "drift hunters":"https://imgs.crazygames.com/games/drift-hunters/cover-1656950639575.png?metadata=none&quality=40&width=1200&height=630&fit=crop",
+ "subway surfers":"https://play-lh.googleusercontent.com/JzFSE6MI0F_5bWcyYLXma-BiCRfRrhh1Of1qZizM3DenOa8v_1mnNiO0BoOFOAIScDA",
+ "block blast":"https://m.media-amazon.com/images/I/71mDg3UjuqL.png",
+ "minecraft":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHGtIoU4GuJVA2eb6Dli-OpwZu0_jGionzAQ&s",
+ "geometry dash":"https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Logo_of_Geometry_Dash.svg/800px-Logo_of_Geometry_Dash.svg.png",
+ "getting over it":"https://scratchgames.co/data/image/game/getting-over-it.jpg",
+ "plants vs zombies":"https://media.contentapi.ea.com/content/dam/gin/images/2017/01/plants-vs-zombies-2-keyart.jpg.adapt.crop1x1.767p.jpg",
+ "wordle":"https://static01.nyt.com/images/2022/03/02/crosswords/alpha-wordle-icon-new/alpha-wordle-icon-new-smallSquare252-v3.png",
+ "smash karts":"https://play-lh.googleusercontent.com/cM1CXOuBIy0kjGfoCTOKNa812iuVX6X2DDop8xNH4mNyjuM-oj3wVqZ7wiAOizq_TA",
+ "duck life":"https://styles.redditmedia.com/t5_2zesh/styles/communityIcon_6gx6y4qpdw651.png",
+ "ovo":"https://play-lh.googleusercontent.com/FGOx7lauU-s3GyEV-R9rsDLd1v1aS9T788QAQ9wsVYCDZa89OqV55L7aE0vqgEt3mg",
+ "moto x3m collection":"https://img.utdstc.com/icon/d58/2cc/d582ccb74f259ec7c126fc55b61b13e0856d37b2f8ca70507521273bea0b8950:200",
+ "papa's games":"https://play-lh.googleusercontent.com/lqWRHAKn67nT7C82m07l_hYJVDBQxN92xil_IupDZkYMaNIX47tZSeoJfHbeyqlsNOI", /* hub icon */
+ "escape road":"https://1games.io/data/image/game/escape-road/1024-x-768.png",
+ "slow roads":"https://rocketgames.imgix.net/uploads/games/s/slow-roads-io/slow-roads-io.adda0e.jpg",
+ "traffic tour":"https://imgs.crazygames.com/games/traffic-tour/cover-1663686966759.png?metadata=none&quality=40&width=1200&height=630&fit=crop",
+ "snowball io":"https://www.mathnook.com/img/addthis-fun-games/snowball-io-200x200.jpg",
+ "big tower tiny square":"https://styles.redditmedia.com/t5_6ahs3b/styles/communityIcon_avccbus8rcw81.png",
+ /* assorted populairty */
+ "paper.io 2":"https://play-lh.googleusercontent.com/f872z9nUZm2WipBlwX6Y8qhPU8N4IT3ONnF8WcXxEzNJbXRIebObtiSGT0Q_PB-nFzs",
+ "cookie clicker":"https://play-lh.googleusercontent.com/t7LYe0yoyS9MhUlCT3VkOITkkpFmS6r30YIOCwRvDDDeWGPAHDq6LaNruM3aMc_Gqd8",
+ "flappy bird":"https://upload.wikimedia.org/wikipedia/en/0/0f/Flappy_Bird_icon.png",
+ "traffic jam 3d":"https://play-lh.googleusercontent.com/VUjh3nKX_i6EvuAKeuWFvBzP_1DLGxCPKHSy3BC865_GtYzFtS4zqIxkDk3ZekxXkw=w512",
+ "stack":"https://play-lh.googleusercontent.com/WRlGQXa9Pav7YZPW-P5X8PAga0lF2T1BAzmasxB9qV_1_om5DgmMbxOFo2SK8ZN5K5k",
+ "fireboy and watergirl":"https://play-lh.googleusercontent.com/k4KBrnuuYncJkCAQkz86f_vnkTtu6q31RUwd2nqDZkoV_j-Ylqsmj9ZV1t7e6T2Z0g",
+ "2048":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/2048_logo.svg/1200px-2048_logo.svg.png",
+ "run 3":"https://cdn2.steamgriddb.com/icon_thumb/833cc7b10966fa0202801496bffccb37.png",
+ "pac‑man":"https://files.softicons.com/download/game-icons/classic-games-icons-by-thvg/png/512/Pacman.png",
+ "angry birds":"https://static.wikia.nocookie.net/angrybirds/images/7/70/AngryBirds_Classic_GameIcon_Vector_2.png",
+ "krunker.io":"https://play-lh.googleusercontent.com/YiIdFPGRikQVMAcT8Bg5MiYRgi9YHwsFfP5RsfBcpwKqsl_y3AWqbJ8rhJ0TnLIsdg",
+ "cut the rope":"https://static.wikia.nocookie.net/cuttherope/images/c/c3/Ctrnewicon.png",
+ "clash of clans":"https://play-lh.googleusercontent.com/LByrur1mTmPeNr0ljI-uAUcct1rzmTve5Esau1SwoAzjBXQUby6uHIfHbF9TAT51mgHm",
+ "tunnel rush":"https://img.utdstc.com/icon/164/d04/164d0433e80dec1301a754b7086d48cd186584ca7ad444abe328d2108802384f:200",
+ "wordscapes":"https://play-lh.googleusercontent.com/2TOwtdo3fcRQVnMo3Y-lqpK514490ZfztM-9J5XkbZ9E1hmxrfahQQawgH38Ojf7U9g",
+ "merge fruit":"https://play-lh.googleusercontent.com/_0KLAVPWo84_SXmaVKEDUv7zwnOpVmSigHIr4V0CbSZW6eiEyPsurWFq7zhD1yqG6_I3=w240-h480-rw",
+ "vex 6":"https://img.tapimg.net/market/images/9786627caa1317ee789c35ddcc17c652.png/appicon",
+ "basketball stars":"https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100079582356667",
+ "happy wheels":"https://cdn-1.webcatalog.io/catalog/poki-happy-wheels/poki-happy-wheels-icon-filled-256.png",
+ /* hidden gems */
+ "3 slices":"https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/5a/af/68/5aaf6802-2d6b-d5d1-75e9-c2e6d3d3b08b/source/512x512bb.jpg",
+ "red remover":"https://cdn2.steamgriddb.com/icon/0a30a29822b9ea4efaa92d60a93c78cb.png",
+ "tangerine tycoon":"https://a.silvergames.com/j/b/tangerine-tycoon.jpg",
+ "hungry blocks":"https://play-lh.googleusercontent.com/R0qgNDYYHbRhw6JFsdEbDMqONplEvJx0m0W9wzYVvY3eNF1c2rfBWYjQxW0sLEzFe1E=s256",
+ "tower stacker":"https://play-lh.googleusercontent.com/ByuW2BX_kC9yCAAogRK98kfMC7DYU27v9_NlTvl0rAtrdanwUsgwgmOL97r2nrEVmA14",
+ "star battle":"https://jrmf.org/wp-content/uploads/StarBattleIcon.png",
+ "hextris":"https://play-lh.googleusercontent.com/BjAErH6wj_Yz3cerp5LfTp4CHm1Z3gjx2hVGN12qJtcdiW32zgeNtDoRR06wIv8Mwco=w296",
+ "rolling vertex":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGJCeaiKwu9fkdWCnvaBSXY9yoYNTA8xVigw&s",
+ "idle breakout":"https://cdn2.iconfinder.com/data/icons/gaming-color-icons/104/16-gaming-breakout-game-retro-arcade-512.png",
+ "stack bounce":"https://stackbounce.h5games.usercontent.goog/v/1aqsvv0aegbjg/images/big_icon.jpeg",
+ "crossy road":"https://upload.wikimedia.org/wikipedia/en/7/71/Crossy_Road_icon.jpeg",
+ "fruit ninja":"https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=512,height=512,fit=cover,f=png/c4dc286c30b8fbde45a0b5d4fe6f2146.png",
+ "hungry shark":"https://pbs.twimg.com/profile_images/1267485973228724229/JE7QPdRn_400x400.png",
+ "helix jump":"https://m.media-amazon.com/images/M/MV5BNTNlNjZkZTctYWJhMi00MWM3LTk0NzMtM2Q1OTA3ZjlhZWFiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+ "smash hit":"https://pbs.twimg.com/profile_images/894224321597583360/RwiL5QXr_400x400.jpg",
+ "bloons td 6":"https://play-lh.googleusercontent.com/4te8y2It_nyY4yX5jcSEFaTDro98302l9EnSbkJyCobGUo8GWxteV_8kJ8nlXyStxw",
+ "stickman hook":"https://m.media-amazon.com/images/I/610klDzmDsL.png",
+ "wheelie bike":"https://www.hoodamath.com/games/html5/wheeliebike/wheeliebike-256x256.png",
+ "madalin stunt cars 3":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU41ZEsGGMkCNvYEV5OLPexKhJsPtBDwOMmg&s",
+ "paper flight":"https://img.gamedistribution.com/d5ad6e62578b4018817d9f35f59b893b-512x512.jpeg",
+ "quick gun":"https://play-lh.googleusercontent.com/eS6UJ96R5niu8xxClysMnW-e8W031Hr0xl9xm5tFh1S9FHbEfyVVOD6-yYLCYIygPs4",
+ "time shooter 3 swat":"https://nutwg.com/en/wp-content/uploads/sites/2/2024/04/2024-04-25-164640548.webp",
+ "spear stickman":"https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/05fefe1a32e0430b901ec798277bc566.png",
+ "neon blasters":"https://play-lh.googleusercontent.com/KnSfScf6n1jPZSJjFXy33ScBEEI5TIqjvQEYg3n_cL9lkGbYi9jSMCa_QWni1aXp1g",
+ "tamagotchi":"https://cdn-icons-png.flaticon.com/512/2532/2532690.png",
+ "fire balls 3d":"https://play-lh.googleusercontent.com/rgdmJZ0GpIOUTCiwuVj8UTw_aL0rjKdctL5cq1gQDBNCpi6F1faZxbLew39BjPtZPDU",
+ "7 days no rain":"https://gamemedia.armorgames.com/16070/icn_heroimage.png",
+ "idle tree city":"https://cdn-1.webcatalog.io/catalog/poki-idle-tree-city/poki-idle-tree-city-icon-filled-256.png",
+ "idle gold mine":"https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/b827914c3e4365d83def2fbb8b4c8684.png",
+ "idle miner":"https://play-lh.googleusercontent.com/QfLR8ihdAADvj2ee2zy1i1Ue58Czb4pIwpF5vi2MrJaB3iKXGcH14xjQY8VpH-TzS38",
+ "idle ant":"https://play-lh.googleusercontent.com/_VOU6eUqQfaeiXGd7W1g3DyEGb88QdunyLD_L9gx9xx4K93lnv3_X5jqZKLniMLVMsA",
+ "coffee clicker":"https://play-lh.googleusercontent.com/kKELC-7peOJIOcmV8uepzPZMvL9ry8-3pO4zlLfXGRM0vKs5qKylxVS-U03m3FjphJ5X",
+ "nugget clicker":"https://www.gamenora.com/upload/games/thumbnails/Nugget%20Clicker.webp",
+ "color road":"https://img.utdstc.com/icon/3a0/a53/3a0a533743c9e50861c5c30eacf735e3d342b54b19a4b88b4df008e4c630e511:200",
+ "infinite craft":"https://play-lh.googleusercontent.com/YJFHGSmrMGuUqyWZ0oZDgDtDErIU2jQY3yT_PG9IRL6s5dBLmKXrXQShM3n8HFoPhkM=w240-h480-rw",
+ "space invaders":"https://nubeowatches.com/cdn/shop/articles/space-invaders-monster-1693465088007.webp",
+ "little alchemy 2":"https://play-lh.googleusercontent.com/bSxb-hF51I1dVUk4HAP-g2Jk06HefPcX5hM6hVYDn8ApX2HFqRSbuuSSMzdON3v8yA=s512"
+};
 
 /* ---------- helpers ---------- */
 const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]+/g,"").trim();
@@ -226,8 +306,7 @@ function togglePin(link,card){
   if(i===-1){pins.push(link);card.classList.add("pinned");}
   else{pins.splice(i,1);card.classList.remove("pinned");}
   localStorage.setItem(pinKey,JSON.stringify(pins));
-  /* refresh pin deck view */
-  if(deck.length===0 && cards.classList.contains("scrollable")) renderNext(true);
+  if(deck===pins && deck.length===0) renderNext(true);
 }
 
 /* ---------- tip ---------- */

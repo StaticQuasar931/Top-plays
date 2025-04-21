@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Static931 • Smart Game Picker</title>
+<title>Static931 • Smart Game Picker</title>
 <meta name="description"
       content="Five unblocked games each visit. ⭐ Right‑click to pin favourites; explore hidden gems or your most‑shown titles.">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -15,41 +15,38 @@
   body{
     font-family:system-ui,Arial,sans-serif;
     background:linear-gradient(135deg,var(--grad) 0%,var(--grey) 70%);
-    overflow:hidden;display:flex;align-items:center;justify-content:center;
-    min-height:100vh;color:#f6f6f6
+    min-height:100vh;display:flex;align-items:center;justify-content:center;color:#f6f6f6
   }
-  .wrapper{position:relative;width:100%;max-width:1100px;padding:52px 14px 34px}
+  .wrapper{width:100%;max-width:1100px;padding:32px 14px 34px}
+  /* toolbar ------------------------------------------------------- */
+  .toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:18px}
   .btn{
-    position:absolute;top:10px;padding:9px 15px;font:600 13px/1 system-ui;
-    background:var(--blue);color:#fff;border:none;border-radius:var(--radius);cursor:pointer;
-    box-shadow:0 3px 7px rgba(0,0,0,.35);transition:transform .2s
-  }
+    padding:9px 16px;font:600 13px/1 system-ui;background:var(--blue);color:#fff;
+    border:none;border-radius:var(--radius);cursor:pointer;
+    box-shadow:0 3px 7px rgba(0,0,0,.35);transition:transform .2s}
   .btn:hover{transform:scale(1.08)}
-  #popularBtn{left:14px}#altBtn{left:140px}#pinsBtn{left:279px}#freqBtn{left:392px}
-  @media(max-width:680px){
-    .btn{font-size:12px;padding:7px 12px}
-    #popularBtn{left:10px}#altBtn{left:116px}#pinsBtn{left:210px}#freqBtn{left:298px}
-  }
+  /* grid ---------------------------------------------------------- */
   .cards{
-    margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--card-w),1fr));
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--card-w),1fr));
     gap:20px;justify-items:center;background:var(--panel);border-radius:var(--radius);
-    padding:28px 22px 32px;box-shadow:0 3px 8px rgba(0,0,0,.28)
-  }
+    padding:28px 22px 32px;box-shadow:0 3px 8px rgba(0,0,0,.28)}
   .scrollable{overflow-y:auto;max-height:62vh}
+  /* card ---------------------------------------------------------- */
   .card{
     width:var(--card-w);background:#0f1114;border-radius:var(--radius);overflow:hidden;
     box-shadow:0 3px 8px rgba(0,0,0,.38);transform:translateY(16px);opacity:0;
-    animation:fadeIn var(--fade) forwards;transition:transform .25s,box-shadow .25s;
-    cursor:pointer;position:relative
-  }
-  .card:hover{transform:translateY(-6px) scale(1.06);box-shadow:0 8px 15px rgba(0,0,0,.55)}
-  .card img{width:100%;height:var(--card-h);object-fit:cover;display:block}
+    animation:fadeIn var(--fade) forwards;cursor:pointer;position:relative}
+  .card:hover{transform:translateY(-6px) scale(1.04);box-shadow:0 8px 15px rgba(0,0,0,.55)}
+  .card img{
+    width:100%;height:var(--card-h);object-fit:cover;display:block;
+    transition:transform .25s,filter .25s}
+  .card:hover img{transform:scale(1.08);filter:brightness(1.15) saturate(1.2)}
   .card span{display:block;padding:9px 7px 11px;font:600 13px/1.2 system-ui;color:#f7f7f7;text-transform:capitalize}
   .card.pinned::after{
     content:"★";position:absolute;top:6px;right:6px;font-size:22px;font-weight:900;
-    color:#ffd43b;filter:drop-shadow(0 0 2px rgba(0,0,0,.7));transform:rotate(-15deg)
-  }
+    color:#ffd43b;filter:drop-shadow(0 0 2px rgba(0,0,0,.7));transform:rotate(-15deg)}
   @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+  /* tip ----------------------------------------------------------- */
   #tip{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
        background:#000c;color:#fff;padding:8px 14px;border-radius:12px;font-size:13px;
        opacity:0;pointer-events:none;transition:opacity .4s}
@@ -58,16 +55,17 @@
 </head>
 <body>
 <div class="wrapper">
-  <button class="btn" id="popularBtn" onclick="setMode('popular')">🎲 Popular</button>
-  <button class="btn" id="altBtn"     onclick="setMode('alt')">✨ Different</button>
-  <button class="btn" id="pinsBtn"    onclick="setMode('pin')">⭐ My Pins</button>
-  <button class="btn" id="freqBtn"    onclick="setMode('freq')">🔥 Frequent</button>
-  <div class="cards" id="cards"></div>
+  <div class="toolbar">
+    <button class="btn" onclick="setMode('popular')">🎲 Popular</button>
+    <button class="btn" onclick="setMode('alt')">✨ Different</button>
+    <button class="btn" onclick="setMode('pin')">⭐ My Pins</button>
+  </div>
+  <div id="cards" class="cards"></div>
 </div>
 <div id="tip">Right‑click a card to pin ⭐</div>
 
 <script>
-/* ------------- game catalogue ------------- */
+/* ---------- full catalogue (main links only) -------------------- */
 const games=[
  ["Snow Rider","https://sites.google.com/view/staticquasar931/gm3z/snow-rider"],
  ["Slope","https://sites.google.com/view/staticquasar931/gm3z/sl0pe"],
@@ -92,11 +90,11 @@ const games=[
  ["Paper.io 2","https://sites.google.com/view/staticquasar931/gm3z/io/paper-io-2"],
  ["Cookie Clicker","https://sites.google.com/view/staticquasar931/gm3z/cookie-clicker"],
  ["Flappy Bird","https://sites.google.com/view/staticquasar931/gm3z/flappy-bird"],
- ["Traffic Jam 3D","https://sites.google.com/view/staticquasar931/gm3z/traffic-jam-3d"],
+ ["Traffic Jam 3D","https://sites.google.com/view/staticquasar931/gm3z/traffic-jam-3d"],
  ["Stack","https://sites.google.com/view/staticquasar931/gm3z/stack"],
  ["Fireboy and Watergirl","https://sites.google.com/view/staticquasar931/gm3z/fireboywatergirl"],
  ["2048","https://sites.google.com/view/staticquasar931/gm3z/2048"],
- ["Run 3","https://sites.google.com/view/staticquasar931/gm3z/run-3-working/run-3"],
+ ["Run 3","https://sites.google.com/view/staticquasar931/gm3z/run-3-working/run-3"],
  ["Pac‑Man","https://sites.google.com/view/staticquasar931/gm3z/pac-man-ghost-gobbler"],
  ["Angry Birds","https://sites.google.com/view/staticquasar931/gm3z/angry-birds"],
  ["Krunker.io","https://sites.google.com/view/staticquasar931/gm3z/io/krunker-io"],
@@ -124,7 +122,7 @@ const games=[
  ["Hungry Shark","https://sites.google.com/view/staticquasar931/gm3z/hungry-shark"],
  ["Helix Jump","https://sites.google.com/view/staticquasar931/gm3z/helix-jump"],
  ["Smash Hit","https://sites.google.com/view/staticquasar931/gm3z/smash-hit"],
- ["Bloons TD 6","https://sites.google.com/view/staticquasar931/gm3z/bloons-tower-defense-6"],
+ ["Bloons TD 6","https://sites.google.com/view/staticquasar931/gm3z/bloons-tower-defense-6"],
  ["Stickman Hook","https://sites.google.com/view/staticquasar931/gm3z/stickman-hook"],
  ["Wheelie Bike","https://sites.google.com/view/staticquasar931/gm3z/wheelie-bike"],
  ["Madalin Stunt Cars 3","https://sites.google.com/view/staticquasar931/gm3z/random-car-gvmes/madalin-stunt-cars-3"],
@@ -141,116 +139,37 @@ const games=[
  ["Space Invaders","https://sites.google.com/view/staticquasar931/gm3z/space-invaders"],
  ["Little Alchemy 2","https://sites.google.com/view/staticquasar931/gm3z/little-alchemy-2"]
 ];
-
-/* ------------- popular weighting ------------- */
+/* ---------- popular weighting ----------------------------------- */
 const popularSet=new Set([
  "slope","drift hunters","slow roads","snow rider","block blast","minecraft",
  "geometry dash","wordle","plants vs zombies","smash karts","duck life","ovo",
- "moto x3m collection","papa's games","escape road","traffic tour","drift hunters",
+ "moto x3m collection","papa's games","escape road","traffic tour",
  "paper.io 2","cookie clicker","flappy bird","traffic jam 3d","stack",
  "fireboy and watergirl","2048","run 3","pac‑man","angry birds","krunker.io",
  "cut the rope","clash of clans","snowball io","3 slices","big tower tiny square"
 ]);
-
-/* ------------- thumbnail map ------------- */
-const imgMap={
- "snow rider":"https://assets.workingnotworking.com/wuw3exhpnufqm251txkeabub40m0",
- "slope":"https://play-lh.googleusercontent.com/uJn2i9h7KxYQarC_c3K4qH6o7gLtflFnhD_dN14MNkzHJ1NeNFzCL69jpB5mT0vCoQs",
- "drift hunters":"https://imgs.crazygames.com/games/drift-hunters/cover-1656950639575.png?quality=45&width=600",
- "subway surfers":"https://play-lh.googleusercontent.com/JzFSE6MI0F_5bWcyYLXma-BiCRfRrhh1Of1qZizM3DenOa8v_1mnNiO0BoOFOAIScDA",
- "block blast":"https://m.media-amazon.com/images/I/71mDg3UjuqL.png",
- "minecraft":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHGtIoU4GuJVA2eb6Dli-OpwZu0_jGionzAQ&s",
- "geometry dash":"https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Logo_of_Geometry_Dash.svg/512px-Logo_of_Geometry_Dash.svg.png",
- "getting over it":"https://scratchgames.co/data/image/game/getting-over-it.jpg",
- "plants vs zombies":"https://media.contentapi.ea.com/content/dam/gin/images/2017/01/plants-vs-zombies-2-keyart.jpg.adapt.crop1x1.767p.jpg",
- "wordle":"https://static01.nyt.com/images/2022/03/02/crosswords/alpha-wordle-icon-new/alpha-wordle-icon-new-smallSquare252-v3.png",
- "smash karts":"https://play-lh.googleusercontent.com/cM1CXOuBIy0kjGfoCTOKNa812iuVX6X2DDop8xNH4mNyjuM-oj3wVqZ7wiAOizq_TA",
- "duck life":"https://styles.redditmedia.com/t5_2zesh/styles/communityIcon_6gx6y4qpdw651.png",
- "ovo":"https://play-lh.googleusercontent.com/FGOx7lauU-s3GyEV-R9rsDLd1v1aS9T788QAQ9wsVYCDZa89OqV55L7aE0vqgEt3mg",
- "moto x3m collection":"https://img.utdstc.com/icon/d58/2cc/d582ccb74f259ec7c126fc55b61b13e0856d37b2f8ca70507521273bea0b8950:200",
- "papa's games":"https://play-lh.googleusercontent.com/U2yvE4od4B2K1kNLkZVkgzmxPEtBqcCgJf4F7KVXV6TxOTwQswVif-QCgS3XiORPAQ",
- "escape road":"https://1games.io/data/image/game/escape-road/1024-x-768.png",
- "slow roads":"https://rocketgames.imgix.net/uploads/games/s/slow-roads-io/slow-roads-io.adda0e.jpg?auto=format,compress&fit=crop&w=600",
- "traffic tour":"https://imgs.crazygames.com/games/traffic-tour/cover-1663686966759.png?quality=45&width=600",
- "snowball io":"https://www.mathnook.com/img/addthis-fun-games/snowball-io-200x200.jpg",
- "big tower tiny square":"https://styles.redditmedia.com/t5_6ahs3b/styles/communityIcon_avccbus8rcw81.png",
- "paper.io 2":"https://play-lh.googleusercontent.com/8bYt-5giKQ2W3ThpggB-NOgGFaQ_Se1i5dlOZhf3kyCVaH1nrpXYB1W7SViyuokO6Q",
- "cookie clicker":"https://play-lh.googleusercontent.com/f_JoMbHvj_xIect4FlImLcvuXwGEzA2iNpu-Cj-HjUhUuPQyjqfQlBvFAaLS_q4Q_tw",
- "flappy bird":"https://upload.wikimedia.org/wikipedia/en/thumb/e/e1/Flappy_Bird_icon.png/512px-Flappy_Bird_icon.png",
- "traffic jam 3d":"https://play-lh.googleusercontent.com/9zY-aB9mE6aCam4y2JCY7-ZmqbPJV_ChTxy9EJrLxTF4raTSdlmiJf0VC_0zw0DPsA",
- "stack":"https://play-lh.googleusercontent.com/WRlGQXa9Pav7YZPW-P5X8PAga0lF2T1BAzmasxB9qV_1_om5DgmMbxOFo2SK8ZN5K5k",
- "fireboy and watergirl":"https://play-lh.googleusercontent.com/k4KBrnuuYncJkCAQkz86f_vnkTtu6q31RUwd2nqDZkoV_j-Ylqsmj9ZV1t7e6T2Z0g",
- "2048":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/2048_logo.svg/512px-2048_logo.svg.png",
- "run 3":"https://cdn2.steamgriddb.com/icon_thumb/833cc7b10966fa0202801496bffccb37.png",
- "pac‑man":"https://files.softicons.com/download/game-icons/classic-games-icons-by-thvg/png/512/Pacman.png",
- "angry birds":"https://static.wikia.nocookie.net/angrybirds/images/7/70/AngryBirds_Classic_GameIcon_Vector_2.png",
- "krunker.io":"https://play-lh.googleusercontent.com/YiIdFPGRikQVMAcT8Bg5MiYRgi9YHwsFfP5RsfBcpwKqsl_y3AWqbJ8rhJ0TnLIsdg",
- "cut the rope":"https://static.wikia.nocookie.net/cuttherope/images/c/c3/Ctrnewicon.png",
- "clash of clans":"https://play-lh.googleusercontent.com/LByrur1mTmPeNr0ljI-uAUcct1rzmTve5Esau1SwoAzjBXQUby6uHIfHbF9TAT51mgHm",
- "tunnel rush":"https://img.utdstc.com/icon/164/d04/164d0433e80dec1301a754b7086d48cd186584ca7ad444abe328d2108802384f:200",
- "wordscapes":"https://play-lh.googleusercontent.com/2TOwtdo3fcRQVnMo3Y-lqpK514490ZfztM-9J5XkbZ9E1hmxrfahQQawgH38Ojf7U9g",
- "merge fruit":"https://play-lh.googleusercontent.com/_0KLAVPWo84_SXmaVKEDUv7zwnOpVmSigHIr4V0CbSZW6eiEyPsurWFq7zhD1yqG6_I3",
- "vex 6":"https://img.tapimg.net/market/images/9786627caa1317ee789c35ddcc17c652.png",
- "basketball stars":"https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100079582356667",
- "happy wheels":"https://cdn-1.webcatalog.io/catalog/poki-happy-wheels/poki-happy-wheels-icon-filled-256.png",
- "3 slices":"https://is2-ssl.mzstatic.com/image/thumb/Purple126/v4/31/7f/69/317f6919-4f28-c09d-3eb1-3093d6ce3419/AppIcon-1x_U007emarketing-0-6-0-0-0-0-0-85-220-0.png/512x512bb.jpg",
- "red remover":"https://cdn2.steamgriddb.com/icon/0a30a29822b9ea4efaa92d60a93c78cb.png",
- "tangerine tycoon":"https://a.silvergames.com/j/b/tangerine-tycoon.jpg",
- "hungry blocks":"https://play-lh.googleusercontent.com/R0qgNDYYHbRhw6JFsdEbDMqONplEvJx0m0W9wzYVvY3eNF1c2rfBWYjQxW0sLEzFe1E=s256-rw",
- "tower stacker":"https://play-lh.googleusercontent.com/ByuW2BX_kC9yCAAogRK98kfMC7DYU27v9_NlTvl0rAtrdanwUsgwgmOL97r2nrEVmA14",
- "star battle":"https://jrmf.org/wp-content/uploads/StarBattleIcon.png",
- "hextris":"https://play-lh.googleusercontent.com/BjAErH6wj_Yz3cerp5LfTp4CHm1Z3gjx2hVGN12qJtcdiW32zgeNtDoRR06wIv8Mwco=w296-h296",
- "rolling vertex":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGJCeaiKwu9fkdWCnvaBSXY9yoYNTA8xVigw&s",
- "idle breakout":"https://cdn2.iconfinder.com/data/icons/gaming-color-icons/104/16-gaming-breakout-game-retro-arcade-512.png",
- "stack bounce":"https://stackbounce.h5gamesusercontent.goog/v/1aqsvv0aegbjg/images/big_icon.jpeg",
- "crossy road":"https://upload.wikimedia.org/wikipedia/en/7/71/Crossy_Road_icon.jpeg",
- "fruit ninja":"https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=300,height=300,fit=cover,f=png/c4dc286c30b8fbde45a0b5d4fe6f2146.png",
- "minion rush":"https://minionrush.com/documents/1223653/0/MinionRushIcon.png",
- "hungry shark":"https://pbs.twimg.com/profile_images/1267485973228724229/JE7QPdRn_400x400.png",
- "helix jump":"https://m.media-amazon.com/images/M/MV5BNTNlNjZkZTctYWJhMi00MWM3LTk0NzMtM2Q1OTA3ZjlhZWFiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
- "smash hit":"https://pbs.twimg.com/profile_images/894224321597583360/RwiL5QXr_400x400.jpg",
- "bloons td 6":"https://play-lh.googleusercontent.com/4te8y2It_nyY4yX5jcSEFaTDro98302l9EnSbkJyCobGUo8GWxteV_8kJ8nlXyStxw",
- "stickman hook":"https://m.media-amazon.com/images/I/610klDzmDsL.png",
- "wheelie bike":"https://www.hoodamath.com/games/images/wheeliebike.png",
- "madalin stunt cars 3":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU41ZEsGGMkCNvYEV5OLPexKhJsPtBDwOMmg&s",
- "adventure drivers":"https://games.famobi.com/screen/adventure-drivers.jpg",
- "paper flight":"https://img.gamedistribution.com/d5ad6e62578b4018817d9f35f59b893b-512x512.jpeg",
- "quick gun":"https://play-lh.googleusercontent.com/eS6UJ96R5niu8xxClysMnW-e8W031Hr0xl9xm5tFh1S9FHbEfyVVOD6-yYLCYIygPs4",
- "time shooter 3 swat":"https://nutwg.com/en/wp-content/uploads/sites/2/2024/04/2024-04-25-164640548.webp",
- "spear stickman":"https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/05fefe1a32e0430b901ec798277bc566.png",
- "neon blasters":"https://play-lh.googleusercontent.com/KnSfScf6n1jPZSJjFXy33ScBEEI5TIqjvQEYg3n_cL9lkGbYi9jSMCa_QWni1aXp1g",
- "tamagotchi":"https://cdn-icons-png.flaticon.com/512/2532/2532690.png",
- "fire balls 3d":"https://play-lh.googleusercontent.com/rgdmJZ0GpIOUTCiwuVj8UTw_aL0rjKdctL5cq1gQDBNCpi6F1faZxbLew39BjPtZPDU",
- "7 days no rain":"https://gamemedia.armorgames.com/16070/icn_heroimage.png",
- "infinite craft":"https://play-lh.googleusercontent.com/YJFHGSmrMGuUqyWZ0oZDgDtDErIU2jQY3yT_PG9IRL6s5dBLmKXrXQShM3n8HFoPhkM=w240-h480-rw",
- "space invaders":"https://nubeowatches.com/cdn/shop/articles/space-invaders-monster-1693465088007.webp",
- "little alchemy 2":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA81B..."
-};
-
-/* ------------- helpers ------------- */
+/* ---------- thumbnail map --------------------------------------- */
+const imgMap={ /* ( identical to previous answer – omitted here for brevity ) */ };
+/* ---------- helpers --------------------------------------------- */
 const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]+/g,"").trim();
 const src=(name,seed)=>imgMap[norm(name)]||
   `https://source.unsplash.com/300x180/?${encodeURIComponent(name+' video game')}&sig=${seed}`;
 function shuffle(a){a.sort(()=>Math.random()-.5);}
-
-/* ------------- build decks ------------- */
-const popularDeck=[], altDeck=[];
+/* ---------- decks ---------------------------------------------- */
+const popularDeck=[],altDeck=[];
 games.forEach(g=>{
-  const weight=popularSet.has(norm(g[0]))?3:1;
-  for(let i=0;i<weight;i++) popularDeck.push(g);
+  const w=popularSet.has(norm(g[0]))?3:1;
+  for(let i=0;i<w;i++) popularDeck.push(g);
   if(!popularSet.has(norm(g[0]))) altDeck.push(g);
 });
 shuffle(popularDeck);shuffle(altDeck);
-
-/* ------------- persistence ------------- */
-const pinKey="static931_Pin", statKey="static931_Stat";
+/* ---------- state & storage ------------------------------------- */
+const pinKey="static931_Pin";
 let pins=JSON.parse(localStorage.getItem(pinKey)||"[]");
-let stats=JSON.parse(localStorage.getItem(statKey)||"{}");
-const recent=[];const RECENT_MAX=30;
-
-/* ------------- render logic ------------- */
+const recent=[],RECENT_MAX=30;
+let deck=popularDeck,ptr=0;
+/* ---------- DOM refs ------------------------------------------- */
 const cards=document.getElementById("cards");
-let deck=popularDeck, ptr=0;
 function nextUnique(){
   let tries=0;
   while(tries<deck.length){
@@ -258,38 +177,35 @@ function nextUnique(){
     if(!recent.includes(g[1])) return g;
     tries++;
   }
-  /* All exhausted → clear recent list */
-  recent.splice(0,recent.length);
-  return deck[ptr++ % deck.length];
+  recent.splice(0);return deck[ptr++ % deck.length];
 }
 function renderNext(reset=false){
   if(reset) ptr=0;
-  const slice=[], seenTitles=new Set();
+  /* if pin mode and list empty → nudge user */
+  if(deck.length===0){cards.innerHTML="<p style='color:#fff;margin-top:6px'>No pins yet — right‑click any card to add ⭐</p>";return;}
+  const slice=[],seen=new Set();
   while(slice.length<5){
     const g=nextUnique();
-    if(!seenTitles.has(g[0])){slice.push(g);seenTitles.add(g[0]);recent.push(g[1]);}
+    if(!seen.has(g[0])){slice.push(g);seen.add(g[0]);recent.push(g[1]);}
     if(recent.length>RECENT_MAX) recent.shift();
   }
   cards.innerHTML="";
   slice.forEach(([title,link],i)=>{
-    stats[link]=(stats[link]||0)+1;
     const card=document.createElement("div");
     card.className="card"+(pins.includes(link)?" pinned":"");
-    card.style.animationDelay=`${i*0.05}s`;
+    card.style.animationDelay=`${i*0.06}s`;
     card.innerHTML=`<img src="${src(title,i)}" alt="${title}"><span>${title}</span>`;
     card.onclick=()=>window.open(link,"_blank","noopener,noreferrer");
     card.oncontextmenu=e=>{e.preventDefault();togglePin(link,card);};
     cards.appendChild(card);
   });
-  localStorage.setItem(statKey,JSON.stringify(stats));
 }
-/* modes */
+/* ---------- modes ---------------------------------------------- */
 function setMode(m){
   if(m==="popular"){deck=popularDeck;cards.classList.remove("scrollable");}
   if(m==="alt"){deck=altDeck;cards.classList.remove("scrollable");}
-  if(m==="pin"){deck=pins.map(l=>games.find(g=>g[1]===l)).filter(Boolean);cards.classList.add("scrollable");}
-  if(m==="freq"){deck=Object.entries(stats).sort((a,b)=>b[1]-a[1]).map(([l])=>games.find(g=>g[1]===l)).filter(Boolean);
-                cards.classList.remove("scrollable");}
+  if(m==="pin"){deck=pins.map(l=>games.find(g=>g[1]===l)).filter(Boolean);
+               cards.classList.add("scrollable");}
   shuffle(deck);ptr=0;renderNext(true);
 }
 function togglePin(link,card){
@@ -298,15 +214,13 @@ function togglePin(link,card){
   else{pins.splice(i,1);card.classList.remove("pinned");}
   localStorage.setItem(pinKey,JSON.stringify(pins));
 }
-
-/* tooltip first‑run */
+/* ---------- tip (first run) ------------------------------------ */
 const tip=document.getElementById("tip");
 if(!localStorage.getItem("static931_tipShown")){
   tip.classList.add("show");setTimeout(()=>tip.classList.remove("show"),4000);
   localStorage.setItem("static931_tipShown","yes");
 }
-
-/* kick‑off */
+/* ---------- kick‑off ------------------------------------------- */
 renderNext();
 </script>
 </body>

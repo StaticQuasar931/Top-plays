@@ -9,10 +9,7 @@
 <style>
   :root{
     --card-w:148px;--card-h:92px;--radius:14px;--fade:.55s cubic-bezier(.4,0,.2,1);
-    --blue:#3163be;          /* accent                          */
-    --grey:#c9c9c9;          /* Google‑Sites panel background    */
-    --panel:#1a1c21;         /* card grid background             */
-    --grad:#dbe3ff;          /* body gradient top                */
+    --blue:#3163be;--grey:#c9c9c9;--panel:#1a1c21;--grad:#dbe3ff
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{
@@ -22,7 +19,6 @@
     min-height:100vh;color:#f6f6f6
   }
   .wrapper{position:relative;width:100%;max-width:1100px;padding:52px 14px 34px}
-  /* buttons */
   .btn{
     position:absolute;top:10px;padding:9px 15px;font:600 13px/1 system-ui;
     background:var(--blue);color:#fff;border:none;border-radius:var(--radius);cursor:pointer;
@@ -34,11 +30,10 @@
     .btn{font-size:12px;padding:7px 12px}
     #popularBtn{left:10px}#altBtn{left:116px}#pinsBtn{left:210px}#freqBtn{left:298px}
   }
-  /* cards grid */
   .cards{
     margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--card-w),1fr));
     gap:20px;justify-items:center;background:var(--panel);border-radius:var(--radius);
-    padding:28px 22px 32px;box-shadow:0 3px 8px rgba(0,0,0,.28);overflow:hidden
+    padding:28px 22px 32px;box-shadow:0 3px 8px rgba(0,0,0,.28)
   }
   .scrollable{overflow-y:auto;max-height:62vh}
   .card{
@@ -49,14 +44,12 @@
   }
   .card:hover{transform:translateY(-6px) scale(1.06);box-shadow:0 8px 15px rgba(0,0,0,.55)}
   .card img{width:100%;height:var(--card-h);object-fit:cover;display:block}
-  .card span{display:block;padding:9px 7px 11px;font:600 13px/1.2 system-ui;
-             color:#f7f7f7;text-transform:capitalize}
+  .card span{display:block;padding:9px 7px 11px;font:600 13px/1.2 system-ui;color:#f7f7f7;text-transform:capitalize}
   .card.pinned::after{
     content:"★";position:absolute;top:6px;right:6px;font-size:22px;font-weight:900;
     color:#ffd43b;filter:drop-shadow(0 0 2px rgba(0,0,0,.7));transform:rotate(-15deg)
   }
   @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
-  /* tooltip */
   #tip{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
        background:#000c;color:#fff;padding:8px 14px;border-radius:12px;font-size:13px;
        opacity:0;pointer-events:none;transition:opacity .4s}
@@ -74,7 +67,7 @@
 <div id="tip">Right‑click a card to pin ⭐</div>
 
 <script>
-/* ------------ games list (one canonical link each) ------------ */
+/* ------------- game catalogue ------------- */
 const games=[
  ["Snow Rider","https://sites.google.com/view/staticquasar931/gm3z/snow-rider"],
  ["Slope","https://sites.google.com/view/staticquasar931/gm3z/sl0pe"],
@@ -92,10 +85,10 @@ const games=[
  ["Moto X3M Collection","https://sites.google.com/view/staticquasar931/gm3z/moto-x3m-listing"],
  ["Papa's Games","https://sites.google.com/view/staticquasar931/gm3z/Papas-Gvmes-listing"],
  ["Escape Road","https://sites.google.com/view/staticquasar931/gm3z/fake-gta-escape-road"],
- ["Among Us","https://sites.google.com/view/staticquasar931/gm3z/among-us"],
+ ["Slow Roads","https://sites.google.com/view/staticquasar931/gm3z/slow-roads"],
+ ["Traffic Tour","https://sites.google.com/view/staticquasar931/gm3z/random-car-gvmes/traffic-tour"],
  ["Snowball IO","https://sites.google.com/view/staticquasar931/gm3z/snowball-io"],
  ["Big Tower Tiny Square","https://sites.google.com/view/staticquasar931/gm3z/big-tower-tiny-square"],
- /* --- classroom favourites --- */
  ["Paper.io 2","https://sites.google.com/view/staticquasar931/gm3z/io/paper-io-2"],
  ["Cookie Clicker","https://sites.google.com/view/staticquasar931/gm3z/cookie-clicker"],
  ["Flappy Bird","https://sites.google.com/view/staticquasar931/gm3z/flappy-bird"],
@@ -104,7 +97,7 @@ const games=[
  ["Fireboy and Watergirl","https://sites.google.com/view/staticquasar931/gm3z/fireboywatergirl"],
  ["2048","https://sites.google.com/view/staticquasar931/gm3z/2048"],
  ["Run 3","https://sites.google.com/view/staticquasar931/gm3z/run-3-working/run-3"],
- ["Pac-Man","https://sites.google.com/view/staticquasar931/gm3z/pac-man-ghost-gobbler"],
+ ["Pac‑Man","https://sites.google.com/view/staticquasar931/gm3z/pac-man-ghost-gobbler"],
  ["Angry Birds","https://sites.google.com/view/staticquasar931/gm3z/angry-birds"],
  ["Krunker.io","https://sites.google.com/view/staticquasar931/gm3z/io/krunker-io"],
  ["Cut the Rope","https://sites.google.com/view/staticquasar931/gm3z/cut-the-rope"],
@@ -112,11 +105,10 @@ const games=[
  ["Tunnel Rush","https://sites.google.com/view/staticquasar931/gm3z/run-3-working/tunnel-rush"],
  ["Wordscapes","https://sites.google.com/view/staticquasar931/gm3z/wordscapes"],
  ["Merge Fruit","https://sites.google.com/view/staticquasar931/gm3z/merge-fruit"],
- ["Vex 6","https://sites.google.com/view/staticquasar931/gm3z/vex/vex-6"],
+ ["Vex 6","https://sites.google.com/view/staticquasar931/gm3z/vex/vex-6"],
  ["Basketball Stars","https://sites.google.com/view/staticquasar931/gm3z/basketball-stars"],
  ["Happy Wheels","https://sites.google.com/view/staticquasar931/gm3z/happy-wheels"],
- /* --- hidden‑gem set --- */
- ["3 Slices","https://sites.google.com/view/staticquasar931/gm3z/3-slices"],
+ ["3 Slices","https://sites.google.com/view/staticquasar931/gm3z/3-slices"],
  ["Red Remover","https://sites.google.com/view/staticquasar931/gm3z/red-remover"],
  ["Tangerine Tycoon","https://sites.google.com/view/staticquasar931/gm3z/tangerine-tycoon"],
  ["Hungry Blocks","https://sites.google.com/view/staticquasar931/gm3z/hungry-blocks"],
@@ -126,52 +118,49 @@ const games=[
  ["Rolling Vertex","https://sites.google.com/view/staticquasar931/gm3z/rolling-vertex"],
  ["Idle Breakout","https://sites.google.com/view/staticquasar931/gm3z/idle-gvmes/idle-breakout"],
  ["Stack Bounce","https://sites.google.com/view/staticquasar931/gm3z/stack-bounce"],
- /* --- more extras --- */
  ["Crossy Road","https://sites.google.com/view/staticquasar931/gm3z/crossy-road"],
  ["Fruit Ninja","https://sites.google.com/view/staticquasar931/gm3z/fruit-ninja"],
  ["Minion Rush","https://sites.google.com/view/staticquasar931/gm3z/minion-rush"],
  ["Hungry Shark","https://sites.google.com/view/staticquasar931/gm3z/hungry-shark"],
  ["Helix Jump","https://sites.google.com/view/staticquasar931/gm3z/helix-jump"],
  ["Smash Hit","https://sites.google.com/view/staticquasar931/gm3z/smash-hit"],
- ["Bloons TD 6","https://sites.google.com/view/staticquasar931/gm3z/bloons-tower-defense-6"],
+ ["Bloons TD 6","https://sites.google.com/view/staticquasar931/gm3z/bloons-tower-defense-6"],
  ["Stickman Hook","https://sites.google.com/view/staticquasar931/gm3z/stickman-hook"],
  ["Wheelie Bike","https://sites.google.com/view/staticquasar931/gm3z/wheelie-bike"],
- ["Madalin Stunt Cars 3","https://sites.google.com/view/staticquasar931/gm3z/random-car-gvmes/madalin-stunt-cars-3"],
+ ["Madalin Stunt Cars 3","https://sites.google.com/view/staticquasar931/gm3z/random-car-gvmes/madalin-stunt-cars-3"],
  ["Adventure Drivers","https://sites.google.com/view/staticquasar931/gm3z/random-car-gvmes/adventure-drivers"],
- ["Traffic Tour","https://sites.google.com/view/staticquasar931/gm3z/random-car-gvmes/traffic-tour"],
  ["Paper Flight","https://sites.google.com/view/staticquasar931/gm3z/paper-flight"],
  ["Quick Gun","https://sites.google.com/view/staticquasar931/gm3z/quick-gun"],
- ["Time Shooter 3 SWAT","https://sites.google.com/view/staticquasar931/gm3z/time-shooter-3-swat"],
- ["Spear Stickman","https://sites.google.com/view/staticquasar931/gm3z/spear-stickman"],
- ["Neon Blasters","https://sites.google.com/view/staticquasar931/gm3z/neon-blasters"],
+ ["Time Shooter 3 SWAT","https://sites.google.com/view/staticquasar931/gm3z/time-shooter-3-swat"],
+ ["Spear Stickman","https://sites.google.com/view/staticquasar931/gm3z/spear-stickman"],
+ ["Neon Blasters","https://sites.google.com/view/staticquasar931/gm3z/neon-blasters"],
  ["Tamagotchi","https://sites.google.com/view/staticquasar931/gm3z/tamagotchi"],
- ["Fire Balls 3D","https://sites.google.com/view/staticquasar931/gm3z/fire-balls-3d"],
- ["7 Days No Rain","https://sites.google.com/view/staticquasar931/gm3z/7-days-no-rain"],
+ ["Fire Balls 3D","https://sites.google.com/view/staticquasar931/gm3z/fire-balls-3d"],
+ ["7 Days No Rain","https://sites.google.com/view/staticquasar931/gm3z/7-days-no-rain"],
  ["Infinite Craft","https://sites.google.com/view/staticquasar931/gm3z/infinite-craft-main"],
  ["Space Invaders","https://sites.google.com/view/staticquasar931/gm3z/space-invaders"],
- ["Little Alchemy 2","https://sites.google.com/view/staticquasar931/gm3z/little-alchemy-2"]
+ ["Little Alchemy 2","https://sites.google.com/view/staticquasar931/gm3z/little-alchemy-2"]
 ];
 
-/* ------------ weighted popular set ------------ */
+/* ------------- popular weighting ------------- */
 const popularSet=new Set([
- "slope","snow rider","drift hunters","subway surfers","block blast","minecraft",
+ "slope","drift hunters","slow roads","snow rider","block blast","minecraft",
  "geometry dash","wordle","plants vs zombies","smash karts","duck life","ovo",
- "moto x3m collection","papa's games","escape road","among us","snowball io",
- "big tower tiny square","paper.io 2","cookie clicker","flappy bird",
- "traffic jam 3d","stack","fireboy and watergirl","2048","run 3","pac-man",
- "angry birds","krunker.io","cut the rope","clash of clans"
+ "moto x3m collection","papa's games","escape road","traffic tour","drift hunters",
+ "paper.io 2","cookie clicker","flappy bird","traffic jam 3d","stack",
+ "fireboy and watergirl","2048","run 3","pac‑man","angry birds","krunker.io",
+ "cut the rope","clash of clans","snowball io","3 slices","big tower tiny square"
 ]);
 
-/* ------------ thumbnail map ------------ */
+/* ------------- thumbnail map ------------- */
 const imgMap={
- /* — core set (kept from last version) — */
  "snow rider":"https://assets.workingnotworking.com/wuw3exhpnufqm251txkeabub40m0",
  "slope":"https://play-lh.googleusercontent.com/uJn2i9h7KxYQarC_c3K4qH6o7gLtflFnhD_dN14MNkzHJ1NeNFzCL69jpB5mT0vCoQs",
- "drift hunters":"https://imgs.crazygames.com/games/drift-hunters/cover-1656950639575.png?metadata=none&quality=40&width=1200&height=630&fit=crop",
+ "drift hunters":"https://imgs.crazygames.com/games/drift-hunters/cover-1656950639575.png?quality=45&width=600",
  "subway surfers":"https://play-lh.googleusercontent.com/JzFSE6MI0F_5bWcyYLXma-BiCRfRrhh1Of1qZizM3DenOa8v_1mnNiO0BoOFOAIScDA",
  "block blast":"https://m.media-amazon.com/images/I/71mDg3UjuqL.png",
  "minecraft":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHGtIoU4GuJVA2eb6Dli-OpwZu0_jGionzAQ&s",
- "geometry dash":"https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Logo_of_Geometry_Dash.svg/800px-Logo_of_Geometry_Dash.svg.png",
+ "geometry dash":"https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Logo_of_Geometry_Dash.svg/512px-Logo_of_Geometry_Dash.svg.png",
  "getting over it":"https://scratchgames.co/data/image/game/getting-over-it.jpg",
  "plants vs zombies":"https://media.contentapi.ea.com/content/dam/gin/images/2017/01/plants-vs-zombies-2-keyart.jpg.adapt.crop1x1.767p.jpg",
  "wordle":"https://static01.nyt.com/images/2022/03/02/crosswords/alpha-wordle-icon-new/alpha-wordle-icon-new-smallSquare252-v3.png",
@@ -181,10 +170,10 @@ const imgMap={
  "moto x3m collection":"https://img.utdstc.com/icon/d58/2cc/d582ccb74f259ec7c126fc55b61b13e0856d37b2f8ca70507521273bea0b8950:200",
  "papa's games":"https://play-lh.googleusercontent.com/U2yvE4od4B2K1kNLkZVkgzmxPEtBqcCgJf4F7KVXV6TxOTwQswVif-QCgS3XiORPAQ",
  "escape road":"https://1games.io/data/image/game/escape-road/1024-x-768.png",
- "among us":"https://static.wikia.nocookie.net/among-us-wiki/images/8/84/Among_Us.png",
+ "slow roads":"https://rocketgames.imgix.net/uploads/games/s/slow-roads-io/slow-roads-io.adda0e.jpg?auto=format,compress&fit=crop&w=600",
+ "traffic tour":"https://imgs.crazygames.com/games/traffic-tour/cover-1663686966759.png?quality=45&width=600",
  "snowball io":"https://www.mathnook.com/img/addthis-fun-games/snowball-io-200x200.jpg",
  "big tower tiny square":"https://styles.redditmedia.com/t5_6ahs3b/styles/communityIcon_avccbus8rcw81.png",
- /* — classroom additions — */
  "paper.io 2":"https://play-lh.googleusercontent.com/8bYt-5giKQ2W3ThpggB-NOgGFaQ_Se1i5dlOZhf3kyCVaH1nrpXYB1W7SViyuokO6Q",
  "cookie clicker":"https://play-lh.googleusercontent.com/f_JoMbHvj_xIect4FlImLcvuXwGEzA2iNpu-Cj-HjUhUuPQyjqfQlBvFAaLS_q4Q_tw",
  "flappy bird":"https://upload.wikimedia.org/wikipedia/en/thumb/e/e1/Flappy_Bird_icon.png/512px-Flappy_Bird_icon.png",
@@ -193,7 +182,7 @@ const imgMap={
  "fireboy and watergirl":"https://play-lh.googleusercontent.com/k4KBrnuuYncJkCAQkz86f_vnkTtu6q31RUwd2nqDZkoV_j-Ylqsmj9ZV1t7e6T2Z0g",
  "2048":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/2048_logo.svg/512px-2048_logo.svg.png",
  "run 3":"https://cdn2.steamgriddb.com/icon_thumb/833cc7b10966fa0202801496bffccb37.png",
- "pac-man":"https://files.softicons.com/download/game-icons/classic-games-icons-by-thvg/png/512/Pacman.png",
+ "pac‑man":"https://files.softicons.com/download/game-icons/classic-games-icons-by-thvg/png/512/Pacman.png",
  "angry birds":"https://static.wikia.nocookie.net/angrybirds/images/7/70/AngryBirds_Classic_GameIcon_Vector_2.png",
  "krunker.io":"https://play-lh.googleusercontent.com/YiIdFPGRikQVMAcT8Bg5MiYRgi9YHwsFfP5RsfBcpwKqsl_y3AWqbJ8rhJ0TnLIsdg",
  "cut the rope":"https://static.wikia.nocookie.net/cuttherope/images/c/c3/Ctrnewicon.png",
@@ -204,7 +193,6 @@ const imgMap={
  "vex 6":"https://img.tapimg.net/market/images/9786627caa1317ee789c35ddcc17c652.png",
  "basketball stars":"https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100079582356667",
  "happy wheels":"https://cdn-1.webcatalog.io/catalog/poki-happy-wheels/poki-happy-wheels-icon-filled-256.png",
- /* — hidden gems — */
  "3 slices":"https://is2-ssl.mzstatic.com/image/thumb/Purple126/v4/31/7f/69/317f6919-4f28-c09d-3eb1-3093d6ce3419/AppIcon-1x_U007emarketing-0-6-0-0-0-0-0-85-220-0.png/512x512bb.jpg",
  "red remover":"https://cdn2.steamgriddb.com/icon/0a30a29822b9ea4efaa92d60a93c78cb.png",
  "tangerine tycoon":"https://a.silvergames.com/j/b/tangerine-tycoon.jpg",
@@ -215,8 +203,17 @@ const imgMap={
  "rolling vertex":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGJCeaiKwu9fkdWCnvaBSXY9yoYNTA8xVigw&s",
  "idle breakout":"https://cdn2.iconfinder.com/data/icons/gaming-color-icons/104/16-gaming-breakout-game-retro-arcade-512.png",
  "stack bounce":"https://stackbounce.h5gamesusercontent.goog/v/1aqsvv0aegbjg/images/big_icon.jpeg",
- /* — extra set — */
- "traffic tour":"https://imgs.crazygames.com/games/traffic-tour/cover-1663686966759.png?metadata=none&quality=40&width=1200&height=630&fit=crop",
+ "crossy road":"https://upload.wikimedia.org/wikipedia/en/7/71/Crossy_Road_icon.jpeg",
+ "fruit ninja":"https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=300,height=300,fit=cover,f=png/c4dc286c30b8fbde45a0b5d4fe6f2146.png",
+ "minion rush":"https://minionrush.com/documents/1223653/0/MinionRushIcon.png",
+ "hungry shark":"https://pbs.twimg.com/profile_images/1267485973228724229/JE7QPdRn_400x400.png",
+ "helix jump":"https://m.media-amazon.com/images/M/MV5BNTNlNjZkZTctYWJhMi00MWM3LTk0NzMtM2Q1OTA3ZjlhZWFiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+ "smash hit":"https://pbs.twimg.com/profile_images/894224321597583360/RwiL5QXr_400x400.jpg",
+ "bloons td 6":"https://play-lh.googleusercontent.com/4te8y2It_nyY4yX5jcSEFaTDro98302l9EnSbkJyCobGUo8GWxteV_8kJ8nlXyStxw",
+ "stickman hook":"https://m.media-amazon.com/images/I/610klDzmDsL.png",
+ "wheelie bike":"https://www.hoodamath.com/games/images/wheeliebike.png",
+ "madalin stunt cars 3":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU41ZEsGGMkCNvYEV5OLPexKhJsPtBDwOMmg&s",
+ "adventure drivers":"https://games.famobi.com/screen/adventure-drivers.jpg",
  "paper flight":"https://img.gamedistribution.com/d5ad6e62578b4018817d9f35f59b893b-512x512.jpeg",
  "quick gun":"https://play-lh.googleusercontent.com/eS6UJ96R5niu8xxClysMnW-e8W031Hr0xl9xm5tFh1S9FHbEfyVVOD6-yYLCYIygPs4",
  "time shooter 3 swat":"https://nutwg.com/en/wp-content/uploads/sites/2/2024/04/2024-04-25-164640548.webp",
@@ -227,73 +224,89 @@ const imgMap={
  "7 days no rain":"https://gamemedia.armorgames.com/16070/icn_heroimage.png",
  "infinite craft":"https://play-lh.googleusercontent.com/YJFHGSmrMGuUqyWZ0oZDgDtDErIU2jQY3yT_PG9IRL6s5dBLmKXrXQShM3n8HFoPhkM=w240-h480-rw",
  "space invaders":"https://nubeowatches.com/cdn/shop/articles/space-invaders-monster-1693465088007.webp",
- "little alchemy 2":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOE..."
+ "little alchemy 2":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA81B..."
 };
 
-/* ------------ helpers ------------ */
-const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]/g,"").trim();
+/* ------------- helpers ------------- */
+const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]+/g,"").trim();
 const src=(name,seed)=>imgMap[norm(name)]||
   `https://source.unsplash.com/300x180/?${encodeURIComponent(name+' video game')}&sig=${seed}`;
 function shuffle(a){a.sort(()=>Math.random()-.5);}
 
-/* ------------ decks ------------ */
+/* ------------- build decks ------------- */
 const popularDeck=[], altDeck=[];
 games.forEach(g=>{
- const w=popularSet.has(norm(g[0]))?3:1;
- for(let i=0;i<w;i++) popularDeck.push(g);
- if(!popularSet.has(norm(g[0]))) altDeck.push(g);
+  const weight=popularSet.has(norm(g[0]))?3:1;
+  for(let i=0;i<weight;i++) popularDeck.push(g);
+  if(!popularSet.has(norm(g[0]))) altDeck.push(g);
 });
 shuffle(popularDeck);shuffle(altDeck);
 
-/* ------------ persistence ------------ */
+/* ------------- persistence ------------- */
 const pinKey="static931_Pin", statKey="static931_Stat";
 let pins=JSON.parse(localStorage.getItem(pinKey)||"[]");
 let stats=JSON.parse(localStorage.getItem(statKey)||"{}");
+const recent=[];const RECENT_MAX=30;
 
-/* ------------ render ------------ */
+/* ------------- render logic ------------- */
 const cards=document.getElementById("cards");
 let deck=popularDeck, ptr=0;
-function setMode(m){
- if(m==="popular"){deck=popularDeck;cards.classList.remove("scrollable");}
- if(m==="alt"){deck=altDeck;cards.classList.remove("scrollable");}
- if(m==="pin"){deck=pins.map(l=>games.find(g=>g[1]===l)).filter(Boolean);cards.classList.add("scrollable");}
- if(m==="freq"){deck=Object.entries(stats).sort((a,b)=>b[1]-a[1]).slice(0,20)
-                      .map(([l])=>games.find(g=>g[1]===l)).filter(Boolean);
-                cards.classList.remove("scrollable");}
- ptr=0;renderNext(true);
+function nextUnique(){
+  let tries=0;
+  while(tries<deck.length){
+    const g=deck[ptr++ % deck.length];
+    if(!recent.includes(g[1])) return g;
+    tries++;
+  }
+  /* All exhausted → clear recent list */
+  recent.splice(0,recent.length);
+  return deck[ptr++ % deck.length];
 }
 function renderNext(reset=false){
- if(reset) ptr=0;
- if(ptr>=deck.length){shuffle(deck);ptr=0;}
- const slice=deck.slice(ptr,ptr+5);ptr+=5;
- cards.innerHTML="";
- slice.forEach(([title,link],i)=>{
-   stats[link]=(stats[link]||0)+1;
-   const card=document.createElement("div");
-   card.className="card"+(pins.includes(link)?" pinned":"");
-   card.style.animationDelay=`${i*0.05}s`;
-   card.innerHTML=`<img src="${src(title,i)}" alt="${title}"><span>${title}</span>`;
-   card.onclick=()=>window.open(link,"_blank","noopener");
-   card.oncontextmenu=e=>{e.preventDefault();togglePin(link,card);};
-   cards.appendChild(card);
- });
- localStorage.setItem(statKey,JSON.stringify(stats));
+  if(reset) ptr=0;
+  const slice=[], seenTitles=new Set();
+  while(slice.length<5){
+    const g=nextUnique();
+    if(!seenTitles.has(g[0])){slice.push(g);seenTitles.add(g[0]);recent.push(g[1]);}
+    if(recent.length>RECENT_MAX) recent.shift();
+  }
+  cards.innerHTML="";
+  slice.forEach(([title,link],i)=>{
+    stats[link]=(stats[link]||0)+1;
+    const card=document.createElement("div");
+    card.className="card"+(pins.includes(link)?" pinned":"");
+    card.style.animationDelay=`${i*0.05}s`;
+    card.innerHTML=`<img src="${src(title,i)}" alt="${title}"><span>${title}</span>`;
+    card.onclick=()=>window.open(link,"_blank","noopener,noreferrer");
+    card.oncontextmenu=e=>{e.preventDefault();togglePin(link,card);};
+    cards.appendChild(card);
+  });
+  localStorage.setItem(statKey,JSON.stringify(stats));
+}
+/* modes */
+function setMode(m){
+  if(m==="popular"){deck=popularDeck;cards.classList.remove("scrollable");}
+  if(m==="alt"){deck=altDeck;cards.classList.remove("scrollable");}
+  if(m==="pin"){deck=pins.map(l=>games.find(g=>g[1]===l)).filter(Boolean);cards.classList.add("scrollable");}
+  if(m==="freq"){deck=Object.entries(stats).sort((a,b)=>b[1]-a[1]).map(([l])=>games.find(g=>g[1]===l)).filter(Boolean);
+                cards.classList.remove("scrollable");}
+  shuffle(deck);ptr=0;renderNext(true);
 }
 function togglePin(link,card){
- const i=pins.indexOf(link);
- if(i===-1){pins.push(link);card.classList.add("pinned");}
- else{pins.splice(i,1);card.classList.remove("pinned");}
- localStorage.setItem(pinKey,JSON.stringify(pins));
+  const i=pins.indexOf(link);
+  if(i===-1){pins.push(link);card.classList.add("pinned");}
+  else{pins.splice(i,1);card.classList.remove("pinned");}
+  localStorage.setItem(pinKey,JSON.stringify(pins));
 }
 
-/* ------------ first‑run tip ------------ */
+/* tooltip first‑run */
 const tip=document.getElementById("tip");
 if(!localStorage.getItem("static931_tipShown")){
- tip.classList.add("show");setTimeout(()=>tip.classList.remove("show"),4000);
- localStorage.setItem("static931_tipShown","yes");
+  tip.classList.add("show");setTimeout(()=>tip.classList.remove("show"),4000);
+  localStorage.setItem("static931_tipShown","yes");
 }
 
-/* ------------ init ------------ */
+/* kick‑off */
 renderNext();
 </script>
 </body>

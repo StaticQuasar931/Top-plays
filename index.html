@@ -1,1 +1,178 @@
-a
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Static931 • Random Unblocked Games</title>
+  <meta name="description" content="Five unblocked games each visit – weighted by popularity. Use ✨ Different Games for hidden gems.">
+  <meta name="keywords" content="unblocked games, school safe games, play at school, static931">
+  <style>
+    :root{
+      --card-w:148px;
+      --card-h:92px;
+      --radius:14px;
+      --fade:.55s cubic-bezier(.4,0,.2,1);
+      --btn:#3163be;
+      --bg:#c9c9c9;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      display:flex;align-items:center;justify-content:center;
+      background:var(--bg);
+      font-family:system-ui,Arial,sans-serif;
+      overflow:hidden;
+      min-height:100vh;
+    }
+    .wrapper{position:relative;width:100%;max-width:1080px;padding:50px 16px 32px}
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(var(--card-w),1fr));
+      gap:20px;justify-items:center;
+      background:#181a1f;border-radius:var(--radius);padding:26px 24px;
+      box-shadow:0 3px 6px rgba(0,0,0,.25);
+    }
+    .card{
+      width:var(--card-w);background:#101315;border-radius:var(--radius);overflow:hidden;
+      box-shadow:0 3px 8px rgba(0,0,0,.38);
+      transform:translateY(16px);opacity:0;
+      animation:fadeIn var(--fade) forwards;
+      transition:transform .25s,box-shadow .25s;
+    }
+    .card:hover{transform:translateY(-6px) scale(1.06);box-shadow:0 8px 15px rgba(0,0,0,.55)}
+    .card img{width:100%;height:var(--card-h);object-fit:cover;display:block}
+    .card span{display:block;padding:9px 7px 11px;font:600 13px/1.2 system-ui;color:#f5f5f5;text-transform:capitalize}
+    .card a{display:block;color:inherit;text-decoration:none}
+    @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+
+    .btn{
+      position:absolute;top:12px;
+      background:var(--btn);color:#fff;border:none;cursor:pointer;
+      font:600 13px/1 system-ui;padding:8px 14px;border-radius:var(--radius);
+      box-shadow:0 3px 8px rgba(0,0,0,.35);transition:transform .2s;
+    }
+    .btn:hover{transform:scale(1.07)}
+    #switchBtn{right:14px}
+    #altBtn{left:14px}
+    @media(max-width:640px){
+      :root{--card-w:132px;--card-h:82px}
+      .btn{font-size:12px;padding:7px 12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <button class="btn" id="altBtn" onclick="showAlt()">✨ Different Games</button>
+    <button class="btn" id="switchBtn" onclick="nextSet()">🎲 Switch Games</button>
+    <div class="cards" id="cards"></div>
+  </div>
+
+  <script>
+    /* ---------------- FULL MAIN‑VERSION GAME LIST (clean, no backups) ---------------- */
+    const games=[
+      "https://sites.google.com/view/staticquasar931/gm3z/snow-rider",
+      "https://sites.google.com/view/staticquasar931/gm3z/drift-hunters",
+      "https://sites.google.com/view/staticquasar931/gm3z/sl0pe",
+      "https://sites.google.com/view/staticquasar931/gm3z/subway-surfers_1/subway-surfers-main",
+      "https://sites.google.com/view/staticquasar931/gm3z/block-blast",
+      "https://sites.google.com/view/staticquasar931/gm3z/getting-over-it",
+      "https://sites.google.com/view/staticquasar931/gm3z/fake-gta-escape-road",
+      "https://sites.google.com/view/staticquasar931/gm3z/minecraft",
+      "https://sites.google.com/view/staticquasar931/gm3z/moto-x3m-listing/moto-x3m",
+      "https://sites.google.com/view/staticquasar931/gm3z/geometry-dash",
+      "https://sites.google.com/view/staticquasar931/gm3z/happy-wheels",
+      "https://sites.google.com/view/staticquasar931/gm3z/big-tower-tiny-square",
+      "https://sites.google.com/view/staticquasar931/gm3z/duck-life",
+      "https://sites.google.com/view/staticquasar931/gm3z/wordle",
+      "https://sites.google.com/view/staticquasar931/gm3z/1v1-lol",
+      "https://sites.google.com/view/staticquasar931/gm3z/cookie-clicker",
+      "https://sites.google.com/view/staticquasar931/gm3z/plants-vs-zombies",
+      "https://sites.google.com/view/staticquasar931/gm3z/among-us",
+      "https://sites.google.com/view/staticquasar931/gm3z/smash-karts",
+      "https://sites.google.com/view/staticquasar931/gm3z/ovo",
+      /* ---------- niche / hidden‑gem examples ---------- */
+      "https://sites.google.com/view/staticquasar931/gm3z/3-slices",
+      "https://sites.google.com/view/staticquasar931/gm3z/red-remover",
+      "https://sites.google.com/view/staticquasar931/gm3z/tangerine-tycoon",
+      "https://sites.google.com/view/staticquasar931/gm3z/hungry-blocks",
+      "https://sites.google.com/view/staticquasar931/gm3z/tower-stacker",
+      "https://sites.google.com/view/staticquasar931/gm3z/star-battle",
+      "https://sites.google.com/view/staticquasar931/gm3z/hextris",
+      "https://sites.google.com/view/staticquasar931/gm3z/rolling-vertex",
+      "https://sites.google.com/view/staticquasar931/gm3z/idle-gvmes/idle-breakout",
+      "https://sites.google.com/view/staticquasar931/gm3z/stack-bounce",
+      /* …include the rest of your main links here … */
+    ];
+
+    /* ----- popularity weighting (simple) ----- */
+    const popularSet=[
+      "snow rider","slope","drift hunters","subway surfers","block blast",
+      "minecraft","geometry dash","happy wheels","1v1 lol","wordle",
+      "cookie clicker","plants vs zombies","among us","smash karts",
+      "duck life","moto x3m","ovo","big tower tiny square","fake gta escape road","snowball io"
+      /* feel free to grow this list */
+    ];
+
+    /* ----- custom thumbnails ----- */
+    const customImages={
+      "snow rider":"https://assets.workingnotworking.com/wuw3exhpnufqm251txkeabub40m0",
+      "slope":"https://play-lh.googleusercontent.com/uJn2i9h7KxYQarC_c3K4qH6o7gLtflFnhD_dN14MNkzHJ1NeNFzCL69jpB5mT0vCoQs",
+      "sl0pe":"https://play-lh.googleusercontent.com/uJn2i9h7KxYQarC_c3K4qH6o7gLtflFnhD_dN14MNkzHJ1NeNFzCL69jpB5mT0vCoQs",
+      "drift hunters":"https://imgs.crazygames.com/games/drift-hunters/cover-1656950639575.png?metadata=none&quality=40&width=1200&height=630&fit=crop",
+      "subway surfers":"https://play-lh.googleusercontent.com/JzFSE6MI0F_5bWcyYLXma-BiCRfRrhh1Of1qZizM3DenOa8v_1mnNiO0BoOFOAIScDA",
+      "block blast":"https://m.media-amazon.com/images/I/71mDg3UjuqL.png",
+      "getting over it":"https://scratchgames.co/data/image/game/getting-over-it.jpg"
+    };
+
+    /* ------ helpers ------ */
+    const norm=txt=>txt.toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/0/g,'o').trim();
+    const slugToName=url=>{
+      const slug=url.split('/').filter(Boolean).pop();
+      return decodeURIComponent(slug.replace(/[-_]/g,' ')).replace(/\b\w/g,l=>l.toUpperCase());
+    };
+    function pickImg(name,seed){
+      const key=norm(name);
+      if(customImages[key]) return customImages[key];
+      return `https://source.unsplash.com/300x180/?${encodeURIComponent(name+' video game')}&sig=${seed}`;
+    }
+
+    /* ------ weighted deck ------ */
+    let fullDeck=[], altDeck=[];
+    games.forEach(link=>{
+      const name=norm(slugToName(link));
+      (popularSet.includes(name)?3:1).toString().split('').forEach(()=>fullDeck.push(link));
+      if(!popularSet.includes(name)) altDeck.push(link);
+    });
+    shuffle(fullDeck); shuffle(altDeck);
+    let deck=fullDeck, idx=0, altMode=false;
+
+    function shuffle(arr){arr.sort(()=>Math.random()-.5);}
+    function nextSet(){
+      if(idx>=deck.length){shuffle(deck); idx=0;}
+      const slice=deck.slice(idx,idx+5);
+      idx+=5;
+      render(slice);
+    }
+    function showAlt(){altMode=!altMode; deck=altMode?altDeck:fullDeck; idx=0; nextSet();}
+
+    /* ------ renderer ------ */
+    function render(list){
+      const container=document.getElementById('cards');
+      container.innerHTML='';
+      list.forEach((link,i)=>{
+        const name=slugToName(link);
+        const seed=(name.length*97+i)%9999;
+        const card=document.createElement('div');
+        card.className='card'; card.style.animationDelay=`${i*0.05}s`;
+        card.innerHTML=`
+          <a href="${link}" target="_blank" rel="noopener">
+            <img src="${pickImg(name,seed)}" alt="${name} thumbnail" title="Play ${name}">
+            <span>${name}</span>
+          </a>`;
+        container.appendChild(card);
+      });
+    }
+
+    /* first render */
+    nextSet();
+  </script>
+</body>
+</html>
